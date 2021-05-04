@@ -1,1 +1,1 @@
-# QOSF_projects
+# QOSF_project
