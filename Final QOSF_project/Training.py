@@ -1,6 +1,8 @@
 # Implementation of Quantum circuit training procedure
 import QCNN_circuit
 import Hierarchical_circuit
+import pennylane as qml
+import numpy as np
 
 def square_loss(labels, predictions):
     loss = 0
@@ -17,19 +19,6 @@ def cost(params, X, Y, U, U_params, embedding_type, circuit):
         predictions = [Hierarchical_circuit.Hierarchical_classifier(x, params, U, U_params, embedding_type) for x in X]
     return square_loss(Y, predictions)
 
-def accuracy_test(predictions, labels, binary = True):
-    if binary == True:
-        acc = 0
-        for l, p in zip(labels, predictions):
-            if np.abs(l - p) < 1:
-                acc = acc + 1
-        return acc / len(labels)
-    else binary == False:
-        acc = 0
-        for l, p in zip(labels, predictions):
-            if np.abs(l - p) < 0.5:
-                acc = acc + 1
-        return acc / len(labels)
 
 # Circuit training parameters
 steps = 150
