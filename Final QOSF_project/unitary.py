@@ -94,4 +94,11 @@ def U_SU4(params, wires): # 15 params
 
 # Pooling Layer
 
-def
+def V_0(theta, wires):
+    qml.CRZ(theta, wires = [wires[0], wires[1]])
+
+def V_1(theta, wires):
+    qml.CRX(theta, wires = [wires[0], wires[1]])
+
+def FullyConnectedLayer(theta, wires):
+    qml.CRZ(theta, wires = [wires[0], wires[1]])
