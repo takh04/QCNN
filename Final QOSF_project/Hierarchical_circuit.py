@@ -1,3 +1,4 @@
+# Implementaion of Hierarchical Quantum Classifier Structure.
 import pennylane as qml
 import unitary
 import embedding
