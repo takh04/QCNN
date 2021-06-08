@@ -42,10 +42,10 @@ def QCNN_structure(U, params, U_params):
     param5 = params[2 * U_params + 4]
 
     conv_layer1(U, param1)
-    pooling_layer1(V_0, V_1, param2)
+    pooling_layer1(unitary.V_0, unitary.V_1, param2)
     conv_layer2(U, param3)
-    pooling_layer2(V_0, V_1, param4)
-    FullyConnectedLayer(param5)
+    pooling_layer2(unitary.V_0, unitary.V_1, param4)
+    unitary.FullyConnectedLayer(param5, wires = [0,4])
 
 
 
