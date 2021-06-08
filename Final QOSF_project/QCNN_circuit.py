@@ -2,7 +2,7 @@
 
 import pennylane as qml
 import unitary
-import data_embedding
+import embedding
 
 def conv_layer1(U, params):
     U(params, wires=[0, 7])
@@ -54,7 +54,7 @@ dev = qml.device('default.qubit', wires = 8)
 def QCNN(X, params, U, U_params, embedding_type='Amplitude'):
 
     # Data Embedding
-    data_embedding.data_embedding(X, embedding_type=embedding_type)
+    embedding.data_embedding(X, embedding_type=embedding_type)
 
     # Quantum Convolutional Neural Network
     if U == 'U_TTN':
@@ -82,10 +82,3 @@ def QCNN(X, params, U, U_params, embedding_type='Amplitude'):
         QCNN_structure(unitary.U_SO4, params, U_params)
 
     return qml.expval(qml.PauliZ(4))
-
-X = [0,0,0,0,0,0,0,0]
-params = [0,0,0,0,0,0,0,0,0]
-U = 'U_TTN'
-
-result = QCNN(X, params, U, 2, 'Angle')
-print(result)
