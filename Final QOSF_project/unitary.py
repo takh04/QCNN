@@ -92,3 +92,6 @@ def U_SU4(params, wires): # 15 params
     qml.U3(params[9], params[10], params[11], wires=wires[0])
     qml.U3(params[12], params[13], params[14], wires=wires[1])
 
+# Pooling Layer
+
+def
