@@ -2,6 +2,7 @@
 # and Hierarchical Quantum Classifier circuit.
 from pennylane.templates.embeddings import AmplitudeEmbedding, AngleEmbedding
 from pennylane.templates.state_preparations import MottonenStatePreparation
+import numpy as np
 
 
 def data_embedding(X, embedding_type='Amplitude'):
@@ -17,11 +18,16 @@ def data_embedding(X, embedding_type='Amplitude'):
     elif embedding_type == 'Hybrid':
         X1 = X[:2 ** 4]
         X2 = X[2 ** 4:2 ** 5]
+
+        #AmplitudeEmbedding(X1, wires = [0,2,4,6], normalize=True)
+        #AmplitudeEmbedding(X2, wires = [1,3,5,7], normalize=True)
+
+
         norm_X1, norm_X2 = np.linalg.norm(X1), np.linalg.norm(X2)
         X1, X2 = X1 / norm_X1, X2 / norm_X2
 
-        MottonenStatePreparation(X1, wires=range(4))
-        MottonenStatePreparation(X2, wires=range(4, 8))
+        MottonenStatePreparation(X1, wires=[0,2,4,6])
+        MottonenStatePreparation(X2, wires=[1,3,5,7])
 
     # Hybrid Embedding for 16 classical data
     elif embedding_type == 'Hybrid16':
@@ -37,5 +43,7 @@ def data_embedding(X, embedding_type='Amplitude'):
         MottonenStatePreparation(X2, wires=range(2, 4))
         MottonenStatePreparation(X3, wires=range(4, 6))
         MottonenStatePreparation(X4, wires=range(6, 8))
+
+
     # Test Code Block Ends
 

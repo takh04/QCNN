@@ -108,3 +108,19 @@ def data_load_and_process(dataset, classes=[0, 1], feature_reduction='resize256'
         if feature_reduction == 'autoencoder8':
             X_train, X_test = X_train * (np.pi / 50), X_test * (np.pi / 50)
         return X_train, X_test, Y_train, Y_test
+
+    ######
+    # Test code block starts for Hybrid Embedding
+    elif feature_reduction == 'pca32':
+        X_train = tf.image.resize(X_train[:], (784, 1)).numpy()
+        X_test = tf.image.resize(X_test[:], (784, 1)).numpy()
+        X_train, X_test = tf.squeeze(X_train), tf.squeeze(X_test)
+
+        pca = PCA(32)
+
+        X_train = pca.fit_transform(X_train)
+        X_test = pca.transform(X_test)
+
+        return X_train, X_test, Y_train, Y_test
+    # Test code block Ends
+    ####

@@ -7,9 +7,9 @@ import Benchmarking
 # dataset = 'mnist' , 'fashion_mnist'
 # circuit = 'QCNN', 'Hierarchical'
 
-Unitaries = ['U_TTN']
+Unitaries = ['U_SU4']
 U_num_params = [2]
-Encodings = ['resize256']
+Encodings = ['pca32']
 dataset = 'mnist'
 circuit = 'QCNN'
 classes = [0,1]

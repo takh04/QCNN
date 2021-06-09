@@ -32,17 +32,19 @@ def Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit, 
             Encoding = Encodings[j]
             if Encoding == 'resize256':
                 Embedding = 'Amplitude'
-                X_train, X_test, Y_train, Y_test = data.data_load_and_process(dataset, classes=classes,
-                                                                         feature_reduction='resize256', binary=binary)
             elif Encoding == 'pca8':
                 Embedding = 'Angle'
-                X_train, X_test, Y_train, Y_test = data.data_load_and_process(dataset, classes=classes,
-                                                                         feature_reduction='pca8', binary=binary)
             elif Encoding == 'autoencoder8':
                 Embedding = 'Angle'
-                X_train, X_test, Y_train, Y_test = data.data_load_and_process(dataset, classes=classes,
-                                                                         feature_reduction='autoencoder8',
-                                                                         binary=binary)
+            #######
+            # Test Code Starts for Hybrid Embedding
+            elif Encoding == 'pca32':
+                Embedding = 'Hybrid'
+
+            X_train, X_test, Y_train, Y_test = data.data_load_and_process(dataset, classes=classes,
+                                                                          feature_reduction=Encoding, binary=binary)
+
+            # Test Code Ends
             print("\n")
             print("Loss History for " + circuit + " circuits, " + U + " " + Encoding)
             loss_history, trained_params = Training.circuit_training(X_train, Y_train, U, U_params, Embedding, circuit)
