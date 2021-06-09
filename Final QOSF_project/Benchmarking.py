@@ -54,3 +54,14 @@ def Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit, 
 
             accuracy = accuracy_test(predictions, Y_test, binary)
             print("Accuracy for " + U + " " + Encoding + " :" + str(accuracy))
+
+            f = open('result.txt', 'w')
+            f.write("Loss History for " + circuit + " circuits, " + U + " " + Encoding)
+            f.write("\n")
+            f.write(str(loss_history))
+            f.write("\n")
+            f.write("Accuracy for " + U + " " + Encoding + " :" + str(accuracy))
+            f.write("\n")
+            f.write("\n")
+            f.close()
+
