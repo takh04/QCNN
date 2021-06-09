@@ -3,6 +3,7 @@ import data
 import Training
 import QCNN_circuit
 import Hierarchical_circuit
+import numpy as np
 
 def accuracy_test(predictions, labels, binary = True):
     if binary == True:
@@ -11,7 +12,8 @@ def accuracy_test(predictions, labels, binary = True):
             if np.abs(l - p) < 1:
                 acc = acc + 1
         return acc / len(labels)
-    else binary == False:
+
+    else:
         acc = 0
         for l, p in zip(labels, predictions):
             if np.abs(l - p) < 0.5:
