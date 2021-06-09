@@ -2,11 +2,16 @@
 
 import Benchmarking
 
-U = ['U_TTN']
-U_params = [2]
+# Unitaries = [U_TTN, U_5, U_6, U_9, U_13, U_14, U_15, U_SO4, U_SU4]
+# U_num_params = [2, 10, 10, 2, 6, 6, 4, 6, 15]
+# dataset = 'mnist' , 'fashion_mnist'
+# circuit = 'QCNN', 'Hierarchical'
+
+Unitaries = ['U_TTN']
+U_num_params = [2]
+Encodings = ['resize256']
 dataset = 'mnist'
-Encoding = ['resize256']
 circuit = 'QCNN'
 classes = [0,1]
 
-Benchmarking.Benchmarking(dataset, classes, U, U_params, Encoding, circuit)
+Benchmarking.Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit)
