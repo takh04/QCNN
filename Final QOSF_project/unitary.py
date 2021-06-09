@@ -100,5 +100,13 @@ def V_0(theta, wires):
 def V_1(theta, wires):
     qml.CRX(theta, wires = [wires[0], wires[1]])
 
+def Pooling_ansatz1(params, wires):
+    qml.CRZ(params[0], wires = [wires[1], wires[0]])
+    qml.PauliX(wires = wires[1])
+    qml.CRX(params[0], wires = [wires[1], wires[0]])
+
+
+# Fully ConnectedLayer
+
 def FullyConnectedLayer(theta, wires):
     qml.CRZ(theta, wires = [wires[0], wires[1]])
