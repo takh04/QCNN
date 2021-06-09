@@ -52,5 +52,5 @@ def Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit, 
             elif circuit == 'Hierarchical':
                 predictions = [Hierarchical_circuit.Hierarchical_classifier(x, trained_params, U, U_params, Embedding) for x in X_test]
 
-            accuracy_test(predictions, Y_test, binary)
+            accuracy = accuracy_test(predictions, Y_test, binary)
             print("Accuracy for " + U + " " + Encoding + " :" + str(accuracy))
