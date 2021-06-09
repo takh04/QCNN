@@ -15,22 +15,12 @@ def conv_layer2(U, params):
     U(params, wires=[4, 6])
     U(params, wires=[2, 4])
     U(params, wires=[0, 6])
-def pooling_layer1(V_0, V_1, params):
+def pooling_layer1(V, params):
     for i in range(0, 8, 2):
-        V_0(params[0], wires=[i + 1, i])
-    for i in range(0, 8, 2):
-        qml.PauliX(wires=i + 1)
-    for i in range(0, 8, 2):
-        V_1(params[1], wires=[i + 1, i])
-def pooling_layer2(V_0, V_1, params):  # 2params
-    V_0(params[0], wires=[2, 0])
-    V_0(params[0], wires=[6, 4])
-
-    qml.PauliX(wires=2)
-    qml.PauliX(wires=6)
-
-    V_1(params[1], wires=[2, 0])
-    V_1(params[1], wires=[6, 4])
+        V(params, wires = [i, i + 1])
+def pooling_layer2(V, params):
+    V(params, wires = [0,2])
+    V(params, wires = [4,6])
 
 
 def QCNN_structure(U, params, U_params):
@@ -42,9 +32,9 @@ def QCNN_structure(U, params, U_params):
     param5 = params[2 * U_params + 4]
 
     conv_layer1(U, param1)
-    pooling_layer1(unitary.V_0, unitary.V_1, param2)
+    pooling_layer1(unitary.Pooling_ansatz1, param2)
     conv_layer2(U, param3)
-    pooling_layer2(unitary.V_0, unitary.V_1, param4)
+    pooling_layer2(unitary.Pooling_ansatz1, param4)
     unitary.FullyConnectedLayer(param5, wires = [0,4])
 
 
