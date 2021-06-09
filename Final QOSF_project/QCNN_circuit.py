@@ -17,10 +17,10 @@ def conv_layer2(U, params):
     U(params, wires=[0, 6])
 def pooling_layer1(V, params):
     for i in range(0, 8, 2):
-        V(params, wires = [i, i + 1])
+        V(params, wires = [i + 1, i])
 def pooling_layer2(V, params):
-    V(params, wires = [0,2])
-    V(params, wires = [4,6])
+    V(params, wires = [2,0])
+    V(params, wires = [6,4])
 
 
 def QCNN_structure(U, params, U_params):

@@ -95,9 +95,9 @@ def U_SU4(params, wires): # 15 params
 # Pooling Layer
 
 def Pooling_ansatz1(params, wires):
-    qml.CRZ(params[0], wires = [wires[1], wires[0]])
-    qml.PauliX(wires = wires[1])
-    qml.CRX(params[1], wires = [wires[1], wires[0]])
+    qml.CRZ(params[0], wires = [wires[0], wires[1]])
+    qml.PauliX(wires = wires[0])
+    qml.CRX(params[1], wires = [wires[0], wires[1]])
 
 
 # Fully ConnectedLayer
