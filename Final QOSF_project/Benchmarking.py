@@ -21,7 +21,7 @@ def accuracy_test(predictions, labels, binary = True):
         return acc / len(labels)
 
 
-def Benchmarking(dataset, Unitaries, U_num_params, Encodings, circuit, binary=True):
+def Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit, binary=True):
     I = len(Unitaries)
     J = len(Encodings)
 
