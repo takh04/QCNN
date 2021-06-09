@@ -4,8 +4,9 @@ import Benchmarking
 
 U = ['U_TTN']
 U_params = [2]
-dataset = 'MNIST'
+dataset = 'mnist'
 Encoding = ['resize256']
 circuit = 'QCNN'
+classes = [0,1]
 
-Benchmarking.Benchmarking(dataset, U, U_params, Encoding, circuit)
+Benchmarking.Benchmarking(dataset, classes, U, U_params, Encoding, circuit)

@@ -44,11 +44,11 @@ def data_load_and_process(dataset, classes=[0, 1], feature_reduction='resize256'
         Y_train, Y_test = y_train[x_train_filter_01], y_test[x_test_filter_01]
 
         if binary == False:
-            Y_train = [1 if y == classes[0] else 0 for y in y_train_01]
-            Y_test = [1 if y == classes[0] else 0 for y in y_test_01]
+            Y_train = [1 if y == classes[0] else 0 for y in Y_train]
+            Y_test = [1 if y == classes[0] else 0 for y in Y_test]
         elif binary == True:
-            Y_train = [1 if y == classes[0] else -1 for y in y_train_01]
-            Y_test = [1 if y == classes[0] else -1 for y in y_test_01]
+            Y_train = [1 if y == classes[0] else -1 for y in Y_train]
+            Y_test = [1 if y == classes[0] else -1 for y in Y_test]
 
     if feature_reduction == 'resize256':
         X_train = tf.image.resize(X_train[:], (256, 1)).numpy()
