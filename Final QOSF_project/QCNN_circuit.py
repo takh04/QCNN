@@ -21,21 +21,21 @@ def pooling_layer1(V, params):
 def pooling_layer2(V, params):
     V(params, wires = [2,0])
     V(params, wires = [6,4])
+def FullyConnectedLayer(U, params):
+    U(params, wires = [0,4])
 
 
 def QCNN_structure(U, params, U_params):
 
     param1 = params[0:U_params]
-    param2 = params[U_params:U_params + 2]
-    param3 = params[U_params + 2: 2 * U_params + 2]
-    param4 = params[2 * U_params + 2: 2 * U_params + 4]
-    param5 = params[2 * U_params + 4]
+    param2 = params[U_params: 2 * U_params]
+    param3 = params[2 * U_params: 3 * U_params ]
 
     conv_layer1(U, param1)
-    pooling_layer1(unitary.Pooling_ansatz1, param2)
-    conv_layer2(U, param3)
-    pooling_layer2(unitary.Pooling_ansatz1, param4)
-    unitary.FullyConnectedLayer(param5, wires = [0,4])
+    #pooling_layer1(unitary.Pooling_ansatz1, param2)
+    conv_layer2(U, param2)
+    #pooling_layer2(unitary.Pooling_ansatz1, param4)
+    FullyConnectedLayer(U, param3)
 
 
 
