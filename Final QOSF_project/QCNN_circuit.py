@@ -49,26 +49,25 @@ def QCNN(X, params, U, U_params, embedding_type='Amplitude'):
     # Quantum Convolutional Neural Network
     if U == 'U_TTN':
         QCNN_structure(unitary.U_TTN, params, U_params)
-
     elif U == 'U_5':
         QCNN_structure(unitary.U_5, params, U_params)
-
     elif U == 'U_6':
         QCNN_structure(unitary.U_6, params, U_params)
-
     elif U == 'U_9':
         QCNN_structure(unitary.U_9, params, U_params)
-
     elif U == 'U_13':
         QCNN_structure(unitary.U_13, params, U_params)
-
     elif U == 'U_14':
         QCNN_structure(unitary.U_14, params, U_params)
-
     elif U == 'U_15':
         QCNN_structure(unitary.U_15, params, U_params)
-
     elif U == 'U_SO4':
         QCNN_structure(unitary.U_SO4, params, U_params)
+    elif U == 'U_SU4':
+        QCNN_structure(unitary.U_SU4, params, U_params)
+
+    else:
+        print("Invalid Unitary Ansatze")
+        return False
 
     return qml.expval(qml.PauliZ(4))

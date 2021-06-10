@@ -36,10 +36,14 @@ def Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit, 
                 Embedding = 'Angle'
             elif Encoding == 'autoencoder8':
                 Embedding = 'Angle'
-            #######
-            # Test Code Starts for Hybrid Embedding
             elif Encoding == 'pca32':
-                Embedding = 'Hybrid'
+                Embedding = 'Hybrid32'
+            elif Encoding = 'autoencoder32':
+                Embedding = 'Hybrid32'
+            elif Encoding = 'pca16':
+                Embedding = 'Hybrid16'
+            elif Encoding = 'autoencoder16':
+                Embedding = 'Hybrid16'
 
             X_train, X_test, Y_train, Y_test = data.data_load_and_process(dataset, classes=classes,
                                                                           feature_reduction=Encoding, binary=binary)

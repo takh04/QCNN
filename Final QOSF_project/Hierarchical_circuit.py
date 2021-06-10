@@ -48,5 +48,7 @@ def Hierarchical_classifier(X, params, U, U_params, embedding_type='Amplitude'):
         Hierarchical_structure(unitary.U_SO4, params, U_params)
     elif U == 'U_SU4':
         Hierarchical_structure(unitary.U_SU4, params, U_params)
-
+    else:
+        print("Invalid Unitary Ansatz")
+        return False
     return qml.expval(qml.PauliZ(7))

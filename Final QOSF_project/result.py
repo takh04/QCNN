@@ -8,7 +8,7 @@ import Benchmarking
 # circuit = 'QCNN', 'Hierarchical'
 
 Unitaries = ['U_SU4']
-U_num_params = [2]
+U_num_params = [15]
 Encodings = ['pca32']
 dataset = 'mnist'
 circuit = 'QCNN'

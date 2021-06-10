@@ -56,13 +56,17 @@ def data_load_and_process(dataset, classes=[0, 1], feature_reduction='resize256'
         X_train, X_test = tf.squeeze(X_train), tf.squeeze(X_test)
         return X_train, X_test, Y_train, Y_test
 
-    elif feature_reduction == 'pca8':
+    elif feature_reduction == 'pca8' or feature_reduction == 'pca32' or feature_reduction == 'pca16':
         X_train = tf.image.resize(X_train[:], (784, 1)).numpy()
         X_test = tf.image.resize(X_test[:], (784, 1)).numpy()
         X_train, X_test = tf.squeeze(X_train), tf.squeeze(X_test)
 
         if feature_reduction == 'pca8':
             pca = PCA(8)
+        elif feature_reduction == 'pca16':
+            pca = PCA(16)
+        elif feature_reduction == 'pca32':
+            pca = PCA(32)
 
         X_train = pca.fit_transform(X_train)
         X_test = pca.transform(X_test)
@@ -72,9 +76,14 @@ def data_load_and_process(dataset, classes=[0, 1], feature_reduction='resize256'
             X_train, X_test = (X_train + 10) * (np.pi / 20), (X_test + 10) * (np.pi / 20)
         return X_train, X_test, Y_train, Y_test
 
-    elif feature_reduction == 'autoencoder8':
+    elif feature_reduction == 'autoencoder8' or feature_reduction == 'autoencoder32':
         if feature_reduction == 'autoencoder8':
             latent_dim = 8
+        elif feature_reduction == 'autoencoder16':
+            latent_dim = 16
+        elif feature_reduction == 'autoencoder32':
+            latent_dim = 32
+
 
         class Autoencoder(Model):
             def __init__(self, latent_dim):
@@ -109,18 +118,3 @@ def data_load_and_process(dataset, classes=[0, 1], feature_reduction='resize256'
             X_train, X_test = X_train * (np.pi / 50), X_test * (np.pi / 50)
         return X_train, X_test, Y_train, Y_test
 
-    ######
-    # Test code block starts for Hybrid Embedding
-    elif feature_reduction == 'pca32':
-        X_train = tf.image.resize(X_train[:], (784, 1)).numpy()
-        X_test = tf.image.resize(X_test[:], (784, 1)).numpy()
-        X_train, X_test = tf.squeeze(X_train), tf.squeeze(X_test)
-
-        pca = PCA(32)
-
-        X_train = pca.fit_transform(X_train)
-        X_test = pca.transform(X_test)
-
-        return X_train, X_test, Y_train, Y_test
-    # Test code block Ends
-    ####
