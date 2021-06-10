@@ -74,9 +74,10 @@ def data_load_and_process(dataset, classes=[0, 1], feature_reduction='resize256'
         # Rescale for angle embedding
         if feature_reduction == 'pca8':
             X_train, X_test = (X_train + 10) * (np.pi / 20), (X_test + 10) * (np.pi / 20)
+
         return X_train, X_test, Y_train, Y_test
 
-    elif feature_reduction == 'autoencoder8' or feature_reduction == 'autoencoder32':
+    elif feature_reduction == 'autoencoder8' or feature_reduction == 'autoencoder32' or feature_reduction == 'autoencoder16':
         if feature_reduction == 'autoencoder8':
             latent_dim = 8
         elif feature_reduction == 'autoencoder16':
@@ -116,5 +117,6 @@ def data_load_and_process(dataset, classes=[0, 1], feature_reduction='resize256'
         # Rescale for Angle Embedding
         if feature_reduction == 'autoencoder8':
             X_train, X_test = X_train * (np.pi / 50), X_test * (np.pi / 50)
+
         return X_train, X_test, Y_train, Y_test
 

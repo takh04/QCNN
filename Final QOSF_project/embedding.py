@@ -26,10 +26,10 @@ def data_embedding(X, embedding_type='Amplitude'):
         norm_X1, norm_X2, norm_X3, norm_X4 = np.linalg.norm(X1), np.linalg.norm(X2), np.linalg.norm(X3), np.linalg.norm(
             X4)
         X1, X2, X3, X4 = X1 / norm_X1, X2 / norm_X2, X3 / norm_X3, X4 / norm_X4
-        MottonenStatePreparation(X1, wires=range(0,4))
-        MottonenStatePreparation(X2, wires=range(1, 5))
-        MottonenStatePreparation(X3, wires=range(2, 6))
-        MottonenStatePreparation(X4, wires=range(3, 7))
+        MottonenStatePreparation(X1, wires=[0,4])
+        MottonenStatePreparation(X2, wires=[1,5])
+        MottonenStatePreparation(X3, wires=[2,6])
+        MottonenStatePreparation(X4, wires=[3,7])
 
 
 

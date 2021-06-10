@@ -9,7 +9,7 @@ import Benchmarking
 
 Unitaries = ['U_SU4']
 U_num_params = [15]
-Encodings = ['pca32']
+Encodings = ['pca32', 'autoencoder32', 'pca16', 'autoencoder16']
 dataset = 'mnist'
 circuit = 'QCNN'
 classes = [0,1]
