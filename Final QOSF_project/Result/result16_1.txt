@@ -1,0 +1,20 @@
+Loss History for QCNN circuits, U_SU4 pca16
+[tensor(1.41269191, requires_grad=True), tensor(1.27632935, requires_grad=True), tensor(1.45607184, requires_grad=True), tensor(1.84697051, requires_grad=True), tensor(2.18318891, requires_grad=True)]
+Accuracy for U_SU4 pca16 :0.47092198581560285
+
+Loss History for QCNN circuits, U_SU4 autoencoder16
+[tensor(1.98150871, requires_grad=True), tensor(2.4810754, requires_grad=True), tensor(2.11394638, requires_grad=True), tensor(2.48673343, requires_grad=True), tensor(1.92013955, requires_grad=True)]
+Accuracy for U_SU4 autoencoder16 :0.21040189125295508
+
+Loss History for QCNN circuits, U_SU4 pca16
+[tensor(0.77324215, requires_grad=True), tensor(0.79973944, requires_grad=True), tensor(0.57285108, requires_grad=True), tensor(0.75373245, requires_grad=True), tensor(0.84418949, requires_grad=True)]
+Accuracy for U_SU4 pca16 :0.7200945626477542
+
+Loss History for QCNN circuits, U_SU4 autoencoder16
+[tensor(1.77057274, requires_grad=True), tensor(1.48860602, requires_grad=True), tensor(1.76414651, requires_grad=True), tensor(1.79993347, requires_grad=True), tensor(1.6090392, requires_grad=True)]
+Accuracy for U_SU4 autoencoder16 :0.2576832151300236
+
+Loss History for QCNN circuits, U_SU4 pca16
+[tensor(1.30277001, requires_grad=True), tensor(1.54470127, requires_grad=True), tensor(1.27977641, requires_grad=True), tensor(1.19953951, requires_grad=True), tensor(1.49557406, requires_grad=True)]
+Accuracy for U_SU4 pca16 :0.48274231678486995
+

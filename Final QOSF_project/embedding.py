@@ -40,6 +40,10 @@ def data_embedding(X, embedding_type='Amplitude'):
         norm_X1, norm_X2 = np.linalg.norm(X1), np.linalg.norm(X2)
         X1, X2 = X1 / norm_X1, X2 / norm_X2
 
+
+        print(norm_X1, norm_X2)
+        print("\n")
+
         if embedding_type == 'Hybrid32-1':
             MottonenStatePreparation(X1, wires=[0, 1, 2, 3])
             MottonenStatePreparation(X2, wires=[4, 5, 6, 7])
@@ -54,7 +58,7 @@ def data_embedding(X, embedding_type='Amplitude'):
             MottonenStatePreparation(X2, wires=[1, 2, 5, 6])
 
 
-    #### Test Code Blcok End
+
     elif embedding_type == 'Hybrid16-1' or embedding_type == 'Hybrid16-2' or embedding_type == 'Hybrid16-3' or embedding_type == 'Hybrid16-4':
         X1 = X[:4]
         X2 = X[4:8]
@@ -63,6 +67,7 @@ def data_embedding(X, embedding_type='Amplitude'):
         norm_X1, norm_X2, norm_X3, norm_X4 = np.linalg.norm(X1), np.linalg.norm(X2), np.linalg.norm(X3), np.linalg.norm(
             X4)
         X1, X2, X3, X4 = X1 / norm_X1, X2 / norm_X2, X3 / norm_X3, X4 / norm_X4
+
 
         if embedding_type == 'Hybrid16-1':
             MottonenStatePreparation(X1, wires=[0,1])
@@ -85,7 +90,7 @@ def data_embedding(X, embedding_type='Amplitude'):
             MottonenStatePreparation(X3, wires=[4,6])
             MottonenStatePreparation(X4, wires=[5,7])
 
-
+    #### Test Code Block Ends
 
 
 
