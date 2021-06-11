@@ -26,7 +26,7 @@ def Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit, 
     J = len(Encodings)
 
     # save the result in the result.txt file
-    f = open('result.txt', 'w')
+    f = open('Result/result.txt', 'w')
 
     for i in range(I):
         for j in range(J):
@@ -83,7 +83,7 @@ def Benchmarking_hybrid_embedding16_1(dataset, classes, Encodings, Embeddings, c
     U_params = 15
 
     # save the result in the result.txt file
-    f = open('result16_1.txt', 'w')
+    f = open('Result/result16_1.txt', 'w')
 
     for i in range(I):
         for j in range(J):
@@ -122,7 +122,7 @@ def Benchmarking_hybrid_embedding32_1(dataset, classes, Encodings, Embeddings, c
     U_params = 15
 
     # save the result in the result.txt file
-    f = open('result32_1.txt', 'w')
+    f = open('Result/result32_1.txt', 'w')
 
     for i in range(I):
         for j in range(J):
@@ -161,7 +161,7 @@ def Benchmarking_hybrid_embedding16_2(dataset, classes, Encodings, Embeddings, c
     U_params = 15
 
     # save the result in the result.txt file
-    f = open('result16_2.txt', 'w')
+    f = open('Result/result16_2.txt', 'w')
 
     for i in range(I):
         for j in range(J):
@@ -200,7 +200,7 @@ def Benchmarking_hybrid_embedding32_2(dataset, classes, Encodings, Embeddings, c
     U_params = 15
 
     # save the result in the result.txt file
-    f = open('result32_2.txt', 'w')
+    f = open('Result/result32_2.txt', 'w')
 
     for i in range(I):
         for j in range(J):
@@ -239,7 +239,7 @@ def Benchmarking_hybrid_embedding16_3(dataset, classes, Encodings, Embeddings, c
     U_params = 15
 
     # save the result in the result.txt file
-    f = open('result16_3.txt', 'w')
+    f = open('Result/result16_3.txt', 'w')
 
     for i in range(I):
         for j in range(J):
@@ -278,7 +278,7 @@ def Benchmarking_hybrid_embedding32_3(dataset, classes, Encodings, Embeddings, c
     U_params = 15
 
     # save the result in the result.txt file
-    f = open('result32_3.txt', 'w')
+    f = open('Result/result32_3.txt', 'w')
 
     for i in range(I):
         for j in range(J):
@@ -310,3 +310,76 @@ def Benchmarking_hybrid_embedding32_3(dataset, classes, Encodings, Embeddings, c
             f.write("\n")
     f.close()
 ######## Test Code Block Ends
+
+
+
+
+#### Test Code Block Starts
+import numpy as np
+def Data_norm(dataset, classes, Encodings, binary=True):
+    J = len(Encodings)
+
+    f = open('Result/data_norm.txt', 'w')
+    for j in range(J):
+        Encoding = Encodings[j]
+
+        X_train, X_test, Y_train, Y_test = data.data_load_and_process(dataset, classes=classes,
+                                                                          feature_reduction=Encoding, binary=binary)
+
+        if Encoding ==  'pca32' or Encoding == 'autoencoder32':
+            f.write("Norm of 32 bit Hybrid Embedding")
+            f.write("\n")
+            if Encoding == 'pca32':
+                f.write("Norm for pca32")
+            elif Encoding == 'autoencoder32':
+                f.write("Norm for autoencoder32")
+
+            f.write("\n")
+            for i in range(200):
+                index = np.random.randint(0, len(X_train))
+                X = X_train[index]
+
+                X1 = X[:2 ** 4]
+                X2 = X[2 ** 4:2 ** 5]
+                norm_X1, norm_X2 = np.linalg.norm(X1), np.linalg.norm(X2)
+                f.write(str(norm_X1))
+                f.write("\n")
+                f.write(str(norm_X2))
+                f.write("\n")
+
+                f.write("\n")
+
+            f.write("\n")
+            f.write("\n")
+        elif Encoding == 'pca16' or Encoding == 'autoencoder16':
+            f.write("Norm of 16 bit Hybrid Embedding")
+            f.write("\n")
+            if Encoding == 'pca16':
+                f.write("Norm for pca16")
+            elif Encoding == 'autoencoder16':
+                f.write("Norm for autoencoder16")
+            f.write("\n")
+            for i in range(200):
+                index = np.random.randint(0, len(X_train))
+                X = X_train[index]
+
+                X1 = X[:4]
+                X2 = X[4:8]
+                X3 = X[8:12]
+                X4 = X[12:16]
+                norm_X1, norm_X2, norm_X3, norm_X4 = np.linalg.norm(X1), np.linalg.norm(X2), np.linalg.norm(
+                    X3), np.linalg.norm(X4)
+                f.write(str(norm_X1))
+                f.write("\n")
+                f.write(str(norm_X2))
+                f.write("\n")
+                f.write(str(norm_X3))
+                f.write("\n")
+                f.write(str(norm_X4))
+                f.write("\n")
+
+                f.write("\n")
+
+    f.close()
+
+#### Test Code Block Ends
