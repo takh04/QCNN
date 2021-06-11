@@ -75,6 +75,10 @@ def data_load_and_process(dataset, classes=[0, 1], feature_reduction='resize256'
         if feature_reduction == 'pca8':
             X_train, X_test = (X_train + 10) * (np.pi / 20), (X_test + 10) * (np.pi / 20)
 
+        ###
+        # Use when testing if code is working
+        #X_test, Y_test = X_test[:5], Y_test[:5]
+        ###
         return X_train, X_test, Y_train, Y_test
 
     elif feature_reduction == 'autoencoder8' or feature_reduction == 'autoencoder32' or feature_reduction == 'autoencoder16':
@@ -118,5 +122,9 @@ def data_load_and_process(dataset, classes=[0, 1], feature_reduction='resize256'
         if feature_reduction == 'autoencoder8':
             X_train, X_test = X_train * (np.pi / 50), X_test * (np.pi / 50)
 
+        ###
+        # Use when testing if code is working
+        #X_test, Y_test = X_test[:5], Y_test[:5]
+        ##X
         return X_train, X_test, Y_train, Y_test
 
