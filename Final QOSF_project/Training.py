@@ -38,37 +38,20 @@ def circuit_training(X_train, Y_train, U, U_params, embedding_type, circuit):
     loss_history = []
 
     for it in range(steps):
+
         batch_index = np.random.randint(0, len(X_train), (batch_size,))
         X_batch = [X_train[i] for i in batch_index]
         Y_batch = [Y_train[i] for i in batch_index]
+        try:
+            params, cost_new = opt.step_and_cost(lambda v: cost(v, X_batch, Y_batch, U, U_params, embedding_type, circuit),
+                                                     params)
+        except ValueError:
+            pass
 
-        #####
-        # This is a Test Code for Hybrid Embedding
-        # Test Code Block Starts
-        if embedding_type == 'Hybrid16':
-            for i in range(len(X_batch)):
-                X1 = X_batch[i][:4]
-                X2 = X_batch[i][4:8]
-                X3 = X_batch[i][8:12]
-                X4 = X_batch[i][12:16]
-                norm_X1, norm_X2, norm_X3, norm_X4 = np.linalg.norm(X1), np.linalg.norm(X2), np.linalg.norm(X3), np.linalg.norm(X4)
-                if norm_X1 == 0 or norm_X2 == 0 or norm_X3 == 0 or norm_X4 == 0 :
-                    X_batch.remove(X_batch[i])
-
-        elif embedding_type == 'Hybrid32':
-            for i in range(len(X_batch)):
-                X1 = X_batch[i][:2 ** 4]
-                X2 = X_batch[i][2 ** 4:2 ** 5]
-                norm_X1, norm_X2 = np.linalg.norm(X1), np.linalg.norm(X2)
-                if norm_X1 == 0 or norm_X2 == 0:
-                    X_batch.remove(X_batch[i])
-
-        # Test Code Block Ends
-        ####
-
-        params, cost_new = opt.step_and_cost(lambda v: cost(v, X_batch, Y_batch, U, U_params, embedding_type, circuit),
-                                             params)
         loss_history.append(cost_new)
         if it % 10 == 0:
             print("iteration: ", it, " cost: ", cost_new)
+
     return loss_history, params
+
+

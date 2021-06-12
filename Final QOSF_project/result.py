@@ -1,6 +1,7 @@
 # This generates the results of the bechmarking code
 
 import Benchmarking
+import data
 
 #########
 # Here are possible combinations of benchmarking user could try.
@@ -36,3 +37,6 @@ circuit = 'QCNN'
 Benchmarking.Benchmarking_hybrid_embedding32_1(dataset, classes, Encodings, Embeddings, circuit, binary = True)
 Benchmarking.Benchmarking_hybrid_embedding32_2(dataset, classes, Encodings, Embeddings, circuit, binary = True)
 Benchmarking.Benchmarking_hybrid_embedding32_3(dataset, classes, Encodings, Embeddings, circuit, binary = True)
+
+
+
