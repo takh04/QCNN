@@ -3,6 +3,7 @@
 import pennylane as qml
 import unitary
 import embedding
+import torch
 
 def conv_layer1(U, params):
     U(params, wires=[0, 7])
@@ -40,7 +41,7 @@ def QCNN_structure(U, params, U_params):
 
 
 dev = qml.device('default.qubit', wires = 8)
-@qml.qnode(dev)
+@qml.qnode(dev, interface = 'torch', diff_method='parameter-shift')
 def QCNN(X, params, U, U_params, embedding_type='Amplitude'):
 
 

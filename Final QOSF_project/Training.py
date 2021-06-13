@@ -1,29 +1,17 @@
 # Implementation of Quantum circuit training procedure
 import QCNN_circuit
 import Hierarchical_circuit
-import pennylane as qml
 import numpy as np
+import torch
 
 def square_loss(labels, predictions):
-    loss = 0
-    for l, p in zip(labels, predictions):
-        loss = loss + (l - p) ** 2
+    square_loss = torch.zeros_like(labels)
+    for i in range(len(labels)):
+        square_loss[i] = (labels[i] - predictions[i]).pow(2)
+    return square_loss
 
-    loss = loss / len(labels)
-    return loss
-
-def cost(params, X, Y, U, U_params, embedding_type, circuit):
-    if circuit == 'QCNN':
-        predictions = [QCNN_circuit.QCNN(x, params, U, U_params, embedding_type) for x in X]
-    elif circuit == 'Hierarchical':
-        predictions = [Hierarchical_circuit.Hierarchical_classifier(x, params, U, U_params, embedding_type) for x in X]
-    return square_loss(Y, predictions)
-
-
-# Circuit training parameters
 
 steps = 150
-#steps = 5
 learning_rate = 0.1
 batch_size = 25
 
@@ -34,24 +22,30 @@ def circuit_training(X_train, Y_train, U, U_params, embedding_type, circuit):
         total_params = U_params * 7
 
     params = np.random.randn(total_params)
-    opt = qml.NesterovMomentumOptimizer(learning_rate)
+    params_torch = torch.tensor(params, requires_grad=True)
+    opt = torch.optim.Adam([params_torch], lr=learning_rate)
     loss_history = []
 
     for it in range(steps):
-
+        print(it)
         batch_index = np.random.randint(0, len(X_train), (batch_size,))
         X_batch = [X_train[i] for i in batch_index]
         Y_batch = [Y_train[i] for i in batch_index]
-        try:
-            params, cost_new = opt.step_and_cost(lambda v: cost(v, X_batch, Y_batch, U, U_params, embedding_type, circuit),
-                                                     params)
-        except ValueError:
-            pass
 
-        loss_history.append(cost_new)
-        if it % 10 == 0:
-            print("iteration: ", it, " cost: ", cost_new)
+        X_batch_torch = torch.tensor(X_batch, device=torch.device('cuda'), requires_grad=False)
+        Y_batch_torch = torch.tensor(Y_batch, device=torch.device('cuda'), requires_grad=False)
 
-    return loss_history, params
+        def closure():
+            opt.zero_grad()
+            predictions = torch.stack([QCNN_circuit.QCNN(x, params_torch, U, U_params, embedding_type) for x in X_batch_torch])
+            loss = torch.mean(square_loss(Y_batch_torch.float(), predictions.float()))
+            current_loss = loss.detach().numpy().item()
+            loss_history.append(current_loss)
+            if it % 10 == 0:
+                print("iteration: ", it, ", loss: ", current_loss)
+            loss.backward()
+            return loss
 
+        opt.step(closure)
 
+    return loss_history, params_torch

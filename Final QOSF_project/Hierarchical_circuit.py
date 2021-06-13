@@ -27,7 +27,7 @@ def Hierarchical_structure(U, params, U_params):
 
 
 
-@qml.qnode(dev_TTN)
+@qml.qnode(dev_TTN, interface='torch')
 def Hierarchical_classifier(X, params, U, U_params, embedding_type='Amplitude'):
     embedding.data_embedding(X, embedding_type=embedding_type)
     if U == 'U_TTN':
