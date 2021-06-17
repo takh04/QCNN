@@ -11,8 +11,8 @@ classes = [0,1]
 circuit = 'QCNN'
 
 # Benchmarking target
-Encoding = 'autoencoder16'
-Embedding = 'Hybrid16-2'
+Encoding = 'autoencoder32'
+Embedding = 'Hybrid32-4'
 
 Benchmarking.Benchmarking_hybrid_embedding(dataset, classes, Encoding, Embedding, circuit, binary=True)
 

@@ -40,10 +40,6 @@ def data_embedding(X, embedding_type='Amplitude'):
         norm_X1, norm_X2 = np.linalg.norm(X1), np.linalg.norm(X2)
         X1, X2 = X1 / norm_X1, X2 / norm_X2
 
-
-        print(norm_X1, norm_X2)
-        print("\n")
-
         if embedding_type == 'Hybrid32-1':
             MottonenStatePreparation(X1, wires=[0, 1, 2, 3])
             MottonenStatePreparation(X2, wires=[4, 5, 6, 7])
