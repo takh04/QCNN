@@ -98,13 +98,13 @@ def data_embedding(X, embedding_type='Amplitude'):
         X2 = X[4:8]
         X3 = X[8:12]
         X4 = X[12:16]
-        Mottonen.Mottonen_16(X1, wires=[0, 1])
-        Mottonen.Mottonen_16(X2, wires=[2, 3])
-        Mottonen.Mottonen_16(X3, wires=[4, 5])
-        Mottonen.Mottonen_16(X4, wires=[6, 7])
+        Mottonen.Angular_Mottonen_16(X1, wires=[0, 1])
+        Mottonen.Angular_Mottonen_16(X2, wires=[2, 3])
+        Mottonen.Angular_Mottonen_16(X3, wires=[4, 5])
+        Mottonen.Angular_Mottonen_16(X4, wires=[6, 7])
 
     elif embedding_type == 'Hybrid32-Angle':
         X1 = X[:2**4]
         X2 = X[2**4:2**5]
-        Mottonen.Mottonen_32(X1, wires=[0,1,2,3])
-        Mottonen.Mottonen_32(X2, wires=[4,5,6,7])
+        Mottonen.Angular_Mottonen_32(X1, wires=[0,1,2,3])
+        Mottonen.Angular_Mottonen_32(X2, wires=[4,5,6,7])
