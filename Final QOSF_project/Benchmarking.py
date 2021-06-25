@@ -85,7 +85,7 @@ def Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit, 
 
     f.close()
 
-def Benchmarking_hybrid_embedding(dataset, classes, Encoding, Embedding, circuit, binary=True):
+def Benchmarking_hybrid_embedding_accuracy(dataset, classes, Encoding, Embedding, circuit, binary=True):
     U = 'U_SU4'
     U_params = 15
 
