@@ -19,6 +19,32 @@ def accuracy_test(predictions, labels, binary = True):
                 acc = acc + 1
         return acc / len(labels)
 
+def Encoding_to_Embedding(Encoding):
+    if Encoding == 'resize256':
+        Embedding = 'Amplitude'
+    elif Encoding == 'pca8':
+        Embedding = 'Angle'
+    elif Encoding == 'autoencoder8':
+        Embedding = 'Angle'
+    elif Encoding == 'pca32':
+        Embedding = 'Hybrid32'
+    elif Encoding == 'autoencoder32':
+        Embedding = 'Hybrid32'
+    elif Encoding == 'pca16':
+        Embedding = 'Hybrid16'
+    elif Encoding == 'autoencoder16':
+        Embedding = 'Hybrid16'
+    elif Encoding == 'pca16-Angle':
+        Embedding = 'Hybrid16-Angle'
+    elif Encoding == 'autoencder16-Angle':
+        Embedding = 'Hybrid16-Angle'
+    elif Encoding == 'pca32-Angle':
+        Embedding = 'Hybrid32-Angle'
+    elif Encoding == 'autoencoder32-Angle':
+        Embedding = 'Hybrid32-Angle'
+
+    return Embedding
+
 
 def Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit, binary=True):
     I = len(Unitaries)
@@ -32,24 +58,10 @@ def Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit, 
             U = Unitaries[i]
             U_params = U_num_params[i]
             Encoding = Encodings[j]
-            if Encoding == 'resize256':
-                Embedding = 'Amplitude'
-            elif Encoding == 'pca8':
-                Embedding = 'Angle'
-            elif Encoding == 'autoencoder8':
-                Embedding = 'Angle'
-            elif Encoding == 'pca32':
-                Embedding = 'Hybrid32'
-            elif Encoding == 'autoencoder32':
-                Embedding = 'Hybrid32'
-            elif Encoding == 'pca16':
-                Embedding = 'Hybrid16'
-            elif Encoding == 'autoencoder16':
-                Embedding = 'Hybrid16'
+            Embedding = Encoding_to_Embedding(Encoding)
 
             X_train, X_test, Y_train, Y_test = data.data_load_and_process(dataset, classes=classes,
                                                                           feature_reduction=Encoding, binary=binary)
-
 
             print("\n")
             print("Loss History for " + circuit + " circuits, " + U + " " + Encoding)
