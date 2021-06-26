@@ -35,13 +35,13 @@ def Encoding_to_Embedding(Encoding):
     elif Encoding == 'autoencoder16':
         Embedding = 'Hybrid16'
     elif Encoding == 'pca30':
-        Embedding = 'Angular-Hybrid-4'
+        Embedding = 'Angular-Hybrid4'
     elif Encoding == 'autoencder30':
-        Embedding = 'Angular-Hybrid-4'
+        Embedding = 'Angular-Hybrid4'
     elif Encoding == 'pca6':
-        Embedding = 'Angular-Hybrid-2'
+        Embedding = 'Angular-Hybrid2'
     elif Encoding == 'autoencoder6':
-        Embedding = 'Angular-Hybrid-2'
+        Embedding = 'Angular-Hybrid2'
 
     return Embedding
 
