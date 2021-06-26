@@ -13,13 +13,10 @@ import data
 
 Unitaries = ['U_SU4']
 U_num_params = [15]
-Encodings = ['pca32', 'autoencoder32', 'pca16', 'autoencoder16']
+Encodings = ['autoencoder30']
 dataset = 'mnist'
 circuit = 'QCNN'
 classes = [0,1]
 
-#Benchmarking.Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit)
+Benchmarking.Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit)
 
-
-Encodings = ['pca32', 'autoencoder32', 'pca16', 'autoencoder16']
-Benchmarking.Data_norm(dataset, classes, Encodings, binary=True)

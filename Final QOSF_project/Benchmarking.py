@@ -36,7 +36,7 @@ def Encoding_to_Embedding(Encoding):
         Embedding = 'Hybrid16'
     elif Encoding == 'pca30':
         Embedding = 'Angular-Hybrid4'
-    elif Encoding == 'autoencder30':
+    elif Encoding == 'autoencoder30':
         Embedding = 'Angular-Hybrid4'
     elif Encoding == 'pca6':
         Embedding = 'Angular-Hybrid2'
@@ -82,8 +82,8 @@ def Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit, 
             f.write("Accuracy for " + U + " " + Encoding + " :" + str(accuracy))
             f.write("\n")
             f.write("\n")
-
     f.close()
+
 
 def Benchmarking_hybrid_embedding_accuracy(dataset, classes, Encoding, Embedding, circuit, binary=True):
     U = 'U_SU4'
