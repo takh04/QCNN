@@ -34,14 +34,14 @@ def Encoding_to_Embedding(Encoding):
         Embedding = 'Hybrid16'
     elif Encoding == 'autoencoder16':
         Embedding = 'Hybrid16'
-    elif Encoding == 'pca16-Angle':
-        Embedding = 'Hybrid16-Angle'
-    elif Encoding == 'autoencder16-Angle':
-        Embedding = 'Hybrid16-Angle'
-    elif Encoding == 'pca32-Angle':
-        Embedding = 'Hybrid32-Angle'
-    elif Encoding == 'autoencoder32-Angle':
-        Embedding = 'Hybrid32-Angle'
+    elif Encoding == 'pca30':
+        Embedding = 'Angular-Hybrid-4'
+    elif Encoding == 'autoencder30':
+        Embedding = 'Angular-Hybrid-4'
+    elif Encoding == 'pca6':
+        Embedding = 'Angular-Hybrid-2'
+    elif Encoding == 'autoencoder6':
+        Embedding = 'Angular-Hybrid-2'
 
     return Embedding
 
