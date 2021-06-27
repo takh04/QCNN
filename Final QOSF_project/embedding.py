@@ -3,7 +3,7 @@
 from pennylane.templates.embeddings import AmplitudeEmbedding, AngleEmbedding
 from pennylane.templates.state_preparations import MottonenStatePreparation
 import numpy as np
-import Angular_hybrid
+from Angular_hybrid import Angular_Hybrid_4, Angular_Hybrid_2
 
 
 def data_embedding(X, embedding_type='Amplitude'):
@@ -11,7 +11,7 @@ def data_embedding(X, embedding_type='Amplitude'):
         AmplitudeEmbedding(X, wires=range(8), normalize=True)
     elif embedding_type == 'Angle':
         AngleEmbedding(X, wires=range(8), rotation='Y')
-    elif embedding_type == 'Hybrid32':
+    elif embedding_type == 'Amplitude-Hybrid4':
         X1 = X[:2 ** 4]
         X2 = X[2 ** 4:2 ** 5]
         norm_X1, norm_X2 = np.linalg.norm(X1), np.linalg.norm(X2)
@@ -19,7 +19,7 @@ def data_embedding(X, embedding_type='Amplitude'):
 
         MottonenStatePreparation(X1, wires=[0,2,4,6])
         MottonenStatePreparation(X2, wires=[1,3,5,7])
-    elif embedding_type == 'Hybrid16':
+    elif embedding_type == 'Amplitude-Hybrid2':
         X1 = X[:4]
         X2 = X[4:8]
         X3 = X[8:12]
@@ -31,49 +31,59 @@ def data_embedding(X, embedding_type='Amplitude'):
         MottonenStatePreparation(X2, wires=[1,5])
         MottonenStatePreparation(X3, wires=[2,6])
         MottonenStatePreparation(X4, wires=[3,7])
+    elif embedding_type == 'Angular-Hybrid4':
+        X1 = X[:15]
+        X2 = X[15:30]
+        Angular_Hybrid_4(X1, wires=[0, 1, 2, 3])
+        Angular_Hybrid_4(X2, wires=[4, 5, 6, 7])
     elif embedding_type == 'Angular-Hybrid2':
         X1 = X[:3]
         X2 = X[3:6]
         X3 = X[6:9]
         X4 = X[9:12]
-        Angular_hybrid.Angular_Hybrid_2(X1, wires=[0, 1])
-        Angular_hybrid.Angular_Hybrid_2(X2, wires=[2, 3])
-        Angular_hybrid.Angular_Hybrid_2(X3, wires=[4, 5])
-        Angular_hybrid.Angular_Hybrid_2(X4, wires=[6, 7])
-    elif embedding_type == 'Angular-Hybrid4':
-        X1 = X[:15]
-        X2 = X[15:30]
-        Angular_hybrid.Angular_Hybrid_4(X1, wires=[0, 1, 2, 3])
-        Angular_hybrid.Angular_Hybrid_4(X2, wires=[4, 5, 6, 7])
+        Angular_Hybrid_2(X1, wires=[0, 1])
+        Angular_Hybrid_2(X2, wires=[2, 3])
+        Angular_Hybrid_2(X3, wires=[4, 5])
+        Angular_Hybrid_2(X4, wires=[6, 7])
 
 
 
 
 
+
+
+    #########################################################################
+    #########################################################################
+    # When using Hybrid Embedding there are different combinations that we can encode the data into qubit blocks.
+    # In this section of the code we will investigate the performances of the different possible combinations.
+    # The performances will be evaluated by accuracy measure and entanglement measure.
+    # If possible we will try to deduce the reason for such results
     #### Test Code Block Start
-    # This is a test code for testing different variations of Hybrid Embedding
-    elif embedding_type == 'Hybrid32-1' or embedding_type == 'Hybrid32-2' or embedding_type == 'Hybrid32-3' or embedding_type == 'Hybrid32-4':
+
+    # Amplitude Hybrid
+    elif embedding_type == 'Amplitude-Hybrid4-1' or embedding_type == 'Amplitude-Hybrid4-2' or \
+            embedding_type == 'Amplitude-Hybrid4-3' or embedding_type == 'Amplitude-Hybrid4-4':
         X1 = X[:2 ** 4]
         X2 = X[2 ** 4:2 ** 5]
         norm_X1, norm_X2 = np.linalg.norm(X1), np.linalg.norm(X2)
         X1, X2 = X1 / norm_X1, X2 / norm_X2
 
-        if embedding_type == 'Hybrid32-1':
+        if embedding_type == 'Amplitude-Hybrid4-1':
             MottonenStatePreparation(X1, wires=[0, 1, 2, 3])
             MottonenStatePreparation(X2, wires=[4, 5, 6, 7])
-        elif embedding_type == 'Hybrid32-2':
+        elif embedding_type == 'Amplitude-Hybrid4-2':
             MottonenStatePreparation(X1, wires=[0, 2, 4, 6])
             MottonenStatePreparation(X2, wires=[1, 3, 5, 7])
-        elif embedding_type == 'Hybrid32-3':
+        elif embedding_type == 'Amplitude-Hybrid4-3':
             MottonenStatePreparation(X1, wires=[0, 1, 6, 7])
             MottonenStatePreparation(X2, wires=[2, 3, 4, 5])
-        elif embedding_type == 'Hybrid32-4':
+        elif embedding_type == 'Amplitude-Hybrid4-4':
             MottonenStatePreparation(X1, wires=[0, 3, 4, 7])
             MottonenStatePreparation(X2, wires=[1, 2, 5, 6])
 
 
-
-    elif embedding_type == 'Hybrid16-1' or embedding_type == 'Hybrid16-2' or embedding_type == 'Hybrid16-3' or embedding_type == 'Hybrid16-4':
+    elif embedding_type == 'Amplitude-Hybrid2-1' or embedding_type == 'Amplitude-Hybrid2-2' \
+            or embedding_type == 'Amplitude-Hybrid2-3' or embedding_type == 'Amplitude-Hybrid2-4':
         X1 = X[:4]
         X2 = X[4:8]
         X3 = X[8:12]
@@ -83,28 +93,79 @@ def data_embedding(X, embedding_type='Amplitude'):
         X1, X2, X3, X4 = X1 / norm_X1, X2 / norm_X2, X3 / norm_X3, X4 / norm_X4
 
 
-        if embedding_type == 'Hybrid16-1':
+        if embedding_type == 'Amplitude-Hybrid2-1':
             MottonenStatePreparation(X1, wires=[0,1])
             MottonenStatePreparation(X2, wires=[2,3])
             MottonenStatePreparation(X3, wires=[4,5])
             MottonenStatePreparation(X4, wires=[6,7])
-        elif embedding_type == 'Hybrid16-2':
+        elif embedding_type == 'Amplitude-Hybrid2-2':
             MottonenStatePreparation(X1, wires=[0,4])
             MottonenStatePreparation(X2, wires=[1,5])
             MottonenStatePreparation(X3, wires=[2,6])
             MottonenStatePreparation(X4, wires=[3,7])
-        elif embedding_type == 'Hybrid16-3':
+        elif embedding_type == 'Amplitude-Hybrid2-3':
             MottonenStatePreparation(X1, wires=[0,7])
             MottonenStatePreparation(X2, wires=[1,6])
             MottonenStatePreparation(X3, wires=[2,5])
             MottonenStatePreparation(X4, wires=[3,4])
-        elif embedding_type == 'Hybrid16-4':
+        elif embedding_type == 'Amplitude-Hybrid2-4':
             MottonenStatePreparation(X1, wires=[0,2])
             MottonenStatePreparation(X2, wires=[1,3])
             MottonenStatePreparation(X3, wires=[4,6])
             MottonenStatePreparation(X4, wires=[5,7])
 
+    # Angular Hybrid Embedding
+    elif embedding_type == 'Angular-Hybrid4-1' or embedding_type == 'Angular-Hybrid4-2' or \
+            embedding_type == 'Angular-Hybrid4-3' or embedding_type == 'Angular-Hybrid4-4':
+        N = 15 # 15 classical data in 4 qubits
+        X1 = X[:N]
+        X2 = X[N:2*N]
+
+        if embedding_type == 'Angular-Hybrid4-1':
+            Angular_Hybrid_4(X1, wires=[0, 1, 2, 3])
+            Angular_Hybrid_4(X2, wires=[4, 5, 6, 7])
+        elif embedding_type == 'Angular-Hybrid4-2':
+            Angular_Hybrid_4(X1, wires=[0, 2, 4, 6])
+            Angular_Hybrid_4(X2, wires=[1, 3, 5, 7])
+        elif embedding_type == 'Angular-Hybrid4-3':
+            Angular_Hybrid_4(X1, wires=[0, 1, 6, 7])
+            Angular_Hybrid_4(X2, wires=[2, 3, 4, 5])
+        elif embedding_type == 'Angular-Hybrid4-4':
+            Angular_Hybrid_4(X1, wires=[0, 3, 4, 7])
+            Angular_Hybrid_4(X2, wires=[1, 2, 5, 6])
+
+
+    elif embedding_type == 'Angular-Hybrid2-1' or embedding_type == 'Angular-Hybrid2-2' \
+            or embedding_type == 'Angular-Hybrid2-3' or embedding_type == 'Angular-Hybrid2-4':
+        N = 3  # 3 classical bits in 2 qubits
+        X1 = X[:N]
+        X2 = X[N:2*N]
+        X3 = X[2*N:3*N]
+        X4 = X[3*N:4*N]
+
+        if embedding_type == 'Angular-Hybrid2-1':
+            Angular_Hybrid_2(X1, wires=[0,1])
+            Angular_Hybrid_2(X2, wires=[2,3])
+            Angular_Hybrid_2(X3, wires=[4,5])
+            Angular_Hybrid_2(X4, wires=[6,7])
+        elif embedding_type == 'Angular-Hybrid2-2':
+            Angular_Hybrid_2(X1, wires=[0,4])
+            Angular_Hybrid_2(X2, wires=[1,5])
+            Angular_Hybrid_2(X3, wires=[2,6])
+            Angular_Hybrid_2(X4, wires=[3,7])
+        elif embedding_type == 'Angular-Hybrid2-3':
+            Angular_Hybrid_2(X1, wires=[0,7])
+            Angular_Hybrid_2(X2, wires=[1,6])
+            Angular_Hybrid_2(X3, wires=[2,5])
+            Angular_Hybrid_2(X4, wires=[3,4])
+        elif embedding_type == 'Angular-Hybrid2-4':
+            Angular_Hybrid_2(X1, wires=[0,2])
+            Angular_Hybrid_2(X2, wires=[1,3])
+            Angular_Hybrid_2(X3, wires=[4,6])
+            Angular_Hybrid_2(X4, wires=[5,7])
     #### Test Code Block Ends
+    #########################################################################
+    #########################################################################
 
 
 
