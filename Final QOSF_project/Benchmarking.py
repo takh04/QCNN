@@ -26,14 +26,19 @@ def Encoding_to_Embedding(Encoding):
         Embedding = 'Angle'
     elif Encoding == 'autoencoder8':
         Embedding = 'Angle'
+
+    # Amplitude Hybrid Embedding
     elif Encoding == 'pca32':
-        Embedding = 'Hybrid32'
+        Embedding = 'Amplitude-Hybrid4'
     elif Encoding == 'autoencoder32':
-        Embedding = 'Hybrid32'
+        Embedding = 'Amplitude-Hybrid4'
+
     elif Encoding == 'pca16':
-        Embedding = 'Hybrid16'
+        Embedding = 'Amplitude-Hybrid2'
     elif Encoding == 'autoencoder16':
-        Embedding = 'Hybrid16'
+        Embedding = 'Amplitude-Hybrid2'
+
+    # Angular HybridEmbedding
     elif Encoding == 'pca30':
         Embedding = 'Angular-Hybrid4'
     elif Encoding == 'autoencoder30':
@@ -42,7 +47,6 @@ def Encoding_to_Embedding(Encoding):
         Embedding = 'Angular-Hybrid2'
     elif Encoding == 'autoencoder6':
         Embedding = 'Angular-Hybrid2'
-
     return Embedding
 
 
@@ -84,39 +88,6 @@ def Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit, 
             f.write("\n")
     f.close()
 
-
-def Benchmarking_hybrid_embedding_accuracy(dataset, classes, Encoding, Embedding, circuit, binary=True):
-    U = 'U_SU4'
-    U_params = 15
-
-    # save the result in the result.txt file
-    f = open('Result/hybrid_result.txt', 'a')
-
-    X_train, X_test, Y_train, Y_test = data.data_load_and_process(dataset, classes=classes,
-                                                                          feature_reduction=Encoding, binary=binary)
-
-    print("\n")
-    print("Loss History for " + circuit + " circuits, " + U + " " + Encoding + " " + Embedding)
-    loss_history, trained_params = Training.circuit_training(X_train, Y_train, U, U_params, Embedding, circuit)
-
-    if circuit == 'QCNN':
-        predictions = [QCNN_circuit.QCNN(x, trained_params, U, U_params, Embedding) for x in X_test]
-    elif circuit == 'Hierarchical':
-        predictions = [Hierarchical_circuit.Hierarchical_classifier(x, trained_params, U, U_params, Embedding)
-                            for x in X_test]
-
-    accuracy = accuracy_test(predictions, Y_test, binary)
-    print("Accuracy for " + circuit + " circuits, " + U + " " + Encoding + " " + Embedding + ": " + str(accuracy))
-
-    f.write("Loss History for " + circuit + " circuits, " + U + " " + Encoding + " " + Embedding)
-    f.write("\n")
-    f.write(str(loss_history))
-    f.write("\n")
-    f.write("Accuracy for " + circuit + " circuits, " + U + " " + Encoding + " " + Embedding + ": " + str(accuracy))
-    f.write("\n")
-    f.write("\n")
-    f.close()
-
 def Data_norm(dataset, classes, Encodings, binary=True):
     J = len(Encodings)
     Num_data = 1000
@@ -148,7 +119,7 @@ def Data_norm(dataset, classes, Encodings, binary=True):
 
             if Encoding == 'pca32':
                 f.write("PCA32 Encoding\n")
-            elif Encoding ==  'autoencoder32':
+            elif Encoding == 'autoencoder32':
                 f.write("autoencoder32 Encoding\n")
             f.write("mean of X1: " + str(mean_X1) + " standard deviation of X1: " + str(stdev_X1))
             f.write("\n")
