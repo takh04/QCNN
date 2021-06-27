@@ -28,34 +28,112 @@ def Meyer_Wallach(X, params, embedding_type):
    return measure * 4 / n
 
 
-dataset = 'mnist'
-classes = [0,1]
-encodings32 = ['autoencoder32', 'pca32']
-embeddings32 = ['Hybrid32-1', 'Hybrid32-2', 'Hybrid32-3', 'Hybrid32-4']
+def Benchmarking_Hybrid_Accuracy(dataset, classes, Encodings, Embeddings, N):
+    for i in range(len(Encodings)):
+        for j in range(len(Embeddings)):
+            trained_params_list = []
+            accuracy_list = []
+            for k in range(N):
+                Encoding = Encodings[i]
+                Embedding = Embeddings[j]
 
-for i in range(len(encodings32)):
-    for j in range(len(embeddings32)):
-        for k in range(3):
-            encoding = encodings32[i]
-            embedding = embeddings32[j]
+                f = open("Result/entanglement_measure/" + Encoding + "_" + Embedding + ".txt", 'a')
 
-            f = open("Result/entanglement_measure/" + encoding + "_"+ embedding + "_" + "trained_params.txt", 'a')
+                X_train, X_test, Y_train, Y_test = data.data_load_and_process(dataset=dataset, classes=classes,
+                                                                              feature_reduction=Encoding, binary=True)
 
-            X_train, X_test, Y_train, Y_test = data.data_load_and_process(dataset=dataset, classes=classes, feature_reduction=encoding, binary=True)
-            X_test, Y_test = X_test[:10], Y_test[:10]
-            loss_history, trained_params = Training.circuit_training(X_train, Y_train, 'U_SU4', 15, embedding, 'QCNN')
-            predictions = [QCNN_circuit.QCNN(x, trained_params, 'U_SU4', 15, embedding) for x in X_test]
-            accuracy = Benchmarking.accuracy_test(predictions, Y_test, True)
+                loss_history, trained_params = Training.circuit_training(X_train, Y_train, 'U_SU4', 15, embedding, 'QCNN')
+                predictions = [QCNN_circuit.QCNN(x, trained_params, 'U_SU4', 15, embedding) for x in X_test]
+                accuracy = Benchmarking.accuracy_test(predictions, Y_test, True)
 
-            f.write(str(trained_params))
+                trained_params_list.append(trained_params)
+                accuracy_list.append(accuracy)
+
+                f.write("Trained Paramameters: \n")
+                f.write(str(trained_params))
+                f.write("\n")
+                f.write("Accuracy: ")
+                f.write(str(accuracy))
+                f.write("\n")
+                f.close()
+
+            Best_accuracy = max(accuracy_list)
+            for l in range(N):
+                accuracy = accuracy_list[l]
+                trained_params = trained_params_list[l]
+                if accuracy == Best_accuracy:
+                    Best_trained_params = trained_params
+                    f = open("Result/entanglement_measure/" + Encoding + "_" + Embedding + ".txt", 'a')
+
+                    f.write("Best Trained Paramameters: \n")
+                    f.write(str(Best_trained_params))
+                    f.write("\n")
+                    f.close()
+                    break
+
+
+def Benchmarking_Hybrid_Entanglement(dataset, classes, Encodings, Embeddings, N_samples):
+    for i in range(len(Encodings)):
+        for j in range(len(Embeddings)):
+            Encoding = Encodings[i]
+            Embedding = Embeddings[j]
+
+            X_train, X_test, Y_train, Y_test = data.data_load_and_process(dataset=dataset, classes=classes,
+                                                                          feature_reduction=Encoding, binary=True)
+            random_index = np.random.randint(0, len(X_test), N_samples)
+            X_test = X_test[random_index]
+            best_trained_params = load_best_parameters(Encoding, Embedding)
+
+            entanglement_measure = [Meyer_Wallach(X, best_trained_params, 'Hybrid32-1') for X in X_test]
+            mean_entanglement_measure = np.mean(entanglement_measure)
+            stdev_entanglement_measure = np.std(entanglement_measure)
+
+            f = open("Result/entanglement_measure/" + Encoding + "_" + Embedding + ".txt", 'a')
+            f.write("Entanglement measure Mean: ")
+            f.write(str(mean_entanglement_measure))
             f.write("\n")
-            f.write(str(accuracy))
+            f.write("Entanglement measure Standard Deviation: ")
+            f.write(str(stdev_entanglement_measure))
             f.write("\n")
             f.close()
 
-#random_index = np.random.randint(0, len(X_test), 1000)
-#X_test = X_test[random_index]
-#mean_entanglement_measure = np.mean([Meyer_Wallach(X, trained_params, 'Hybrid32-1') for X in X_test])
-#print(mean_entanglement_measure)
 
+def load_best_parameters(Encoding, Embedding):
+    with open("Result/entanglement_measure/" + Encoding + "_" + Embedding + ".txt", 'r') as infile:
+        for line in infile:
+            if line.startswith("B"):
+                # should_print becomes True if was False and becomes False if was True
+                infile.readline()
+                strings = infile.readline()
+
+    from ast import literal_eval
+    best_trained_parameters = literal_eval(strings)
+    return best_trained_parameters
+
+
+
+dataset = 'mnist'
+classes = [0,1]
+N = 5
+N_samples = 1000
+
+# Amplitude Hybrid Test 4 qubits
+Encodings = ['autoencoder32', 'pca32']
+Embeddings = ['Amplitude-Hybrid4-1', 'Amplitude-Hybrid4-2', 'Amplitude-Hybrid4-3', 'Amplitude-Hybrid4-4']
+
+# Angular Hybrid Test 4 qubits
+#Encodings = ['autoencoder30', 'pca30']
+#Embeddings = ['Angular-Hybrid4-1', 'Angular-Hybrid4-2', 'Angular-Hybrid4-3', 'Angular-Hybrid4-4']
+
+# Amplitude Hybrid Test 2 qubits
+#Encodings = ['autoencoder16', 'pca16']
+#Embeddings = ['Amplitude-Hybrid2-1', 'Amplitude-Hybrid2-2', 'Amplitude-Hybrid2-3', 'Amplitude-Hybrid2-4']
+
+# Angular Hybrid Test 2 qubits
+#Encodings = ['autoencoder12', 'pca12']
+#Embeddings = ['Angular-Hybrid2-1', 'Angular-Hybrid2-2', 'Angular-Hybrid2-3', 'Angular-Hybrid2-4']
+
+#Run the code
+Benchmarking_Hybrid_Accuracy(dataset, classes, Encodings, Embeddings, N)
+Benchmarking_Hybrid_Entanglement(dataset, classes, Encodings, Embeddings, N_samples)
 
