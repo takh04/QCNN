@@ -29,8 +29,11 @@ def Meyer_Wallach(X, params, embedding_type):
 
 
 def Benchmarking_Hybrid_Accuracy(dataset, classes, Encodings, Embeddings, N):
-    for i in range(len(Encodings)):
-        for j in range(len(Embeddings)):
+    I = len(Encodings)
+    J = len(Embeddings)
+    Best_trained_params_list = []
+    for i in range(I):
+        for j in range(J):
             trained_params_list = []
             accuracy_list = []
             for k in range(N):
@@ -63,16 +66,15 @@ def Benchmarking_Hybrid_Accuracy(dataset, classes, Encodings, Embeddings, N):
                 trained_params = trained_params_list[l]
                 if accuracy == Best_accuracy:
                     Best_trained_params = trained_params
-                    f = open("Result/entanglement_measure/" + Encoding + "_" + Embedding + ".txt", 'a')
 
-                    f.write("Best Trained Paramameters: \n")
-                    f.write(str(Best_trained_params))
-                    f.write("\n")
-                    f.close()
-                    break
+            Best_trained_params_list.append(Best_trained_params)
+
+    Best_trained_params_list = np.array(Best_trained_params_list)
+    Best_trained_params_list = np.reshape(Best_trained_params_list, (I,J,45))
+    return Best_trained_params_list
 
 
-def Benchmarking_Hybrid_Entanglement(dataset, classes, Encodings, Embeddings, N_samples):
+def Benchmarking_Hybrid_Entanglement(dataset, classes, Encodings, Embeddings, N_samples, Best_trained_params_list):
     for i in range(len(Encodings)):
         for j in range(len(Embeddings)):
             Encoding = Encodings[i]
@@ -82,9 +84,11 @@ def Benchmarking_Hybrid_Entanglement(dataset, classes, Encodings, Embeddings, N_
                                                                           feature_reduction=Encoding, binary=True)
             random_index = np.random.randint(0, len(X_test), N_samples)
             X_test = X_test[random_index]
-            best_trained_params = load_best_parameters(Encoding, Embedding)
+            Best_trained_params = Best_trained_params_list[i][j]
+            Best_trained_params = Best_trained_params[:15]
+            print(Best_trained_params)
 
-            entanglement_measure = [Meyer_Wallach(X, best_trained_params, 'Hybrid32-1') for X in X_test]
+            entanglement_measure = [Meyer_Wallach(X, Best_trained_params, 'Hybrid32-1') for X in X_test]
             mean_entanglement_measure = np.mean(entanglement_measure)
             stdev_entanglement_measure = np.std(entanglement_measure)
 
@@ -98,18 +102,6 @@ def Benchmarking_Hybrid_Entanglement(dataset, classes, Encodings, Embeddings, N_
             f.close()
 
 
-def load_best_parameters(Encoding, Embedding):
-    with open("Result/entanglement_measure/" + Encoding + "_" + Embedding + ".txt", 'r') as infile:
-        for line in infile:
-            if line.startswith("B"):
-                # should_print becomes True if was False and becomes False if was True
-                infile.readline()
-                strings = infile.readline()
-
-    from ast import literal_eval
-    best_trained_parameters = literal_eval(strings)
-    return best_trained_parameters
-
 
 
 dataset = 'mnist'
@@ -118,12 +110,12 @@ N = 5
 N_samples = 1000
 
 # Amplitude Hybrid Test 4 qubits
-Encodings = ['autoencoder32', 'pca32']
-Embeddings = ['Amplitude-Hybrid4-1', 'Amplitude-Hybrid4-2', 'Amplitude-Hybrid4-3', 'Amplitude-Hybrid4-4']
+#Encodings = ['autoencoder32', 'pca32']
+#Embeddings = ['Amplitude-Hybrid4-1', 'Amplitude-Hybrid4-2', 'Amplitude-Hybrid4-3', 'Amplitude-Hybrid4-4']
 
 # Angular Hybrid Test 4 qubits
-#Encodings = ['autoencoder30', 'pca30']
-#Embeddings = ['Angular-Hybrid4-1', 'Angular-Hybrid4-2', 'Angular-Hybrid4-3', 'Angular-Hybrid4-4']
+Encodings = ['autoencoder30', 'pca30']
+Embeddings = ['Angular-Hybrid4-1']
 
 # Amplitude Hybrid Test 2 qubits
 #Encodings = ['autoencoder16', 'pca16']
@@ -134,6 +126,6 @@ Embeddings = ['Amplitude-Hybrid4-1', 'Amplitude-Hybrid4-2', 'Amplitude-Hybrid4-3
 #Embeddings = ['Angular-Hybrid2-1', 'Angular-Hybrid2-2', 'Angular-Hybrid2-3', 'Angular-Hybrid2-4']
 
 #Run the code
-Benchmarking_Hybrid_Accuracy(dataset, classes, Encodings, Embeddings, N)
-Benchmarking_Hybrid_Entanglement(dataset, classes, Encodings, Embeddings, N_samples)
+Best_trained_params_list = Benchmarking_Hybrid_Accuracy(dataset, classes, Encodings, Embeddings, N)
+Benchmarking_Hybrid_Entanglement(dataset, classes, Encodings, Embeddings, N_samples, Best_trained_params_list)
 

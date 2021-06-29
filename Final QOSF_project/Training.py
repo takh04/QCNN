@@ -22,7 +22,7 @@ def cost(params, X, Y, U, U_params, embedding_type, circuit):
 
 # Circuit training parameters
 
-steps = 10
+steps = 200
 learning_rate = 0.1
 batch_size = 25
 
