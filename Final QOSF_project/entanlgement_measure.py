@@ -115,15 +115,17 @@ N_samples = 1000
 
 # Angular Hybrid Test 4 qubits
 Encodings = ['autoencoder30', 'pca30']
-Embeddings = ['Angular-Hybrid4-1']
+Embeddings = ['Angular-Hybrid4-1', 'Angular-Hybrid4-2', 'Angular-Hybrid4-3', 'Angular-Hybrid4-4']
+Best_trained_params_list = Benchmarking_Hybrid_Accuracy(dataset, classes, Encodings, Embeddings, N)
+Benchmarking_Hybrid_Entanglement(dataset, classes, Encodings, Embeddings, N_samples, Best_trained_params_list)
 
 # Amplitude Hybrid Test 2 qubits
 #Encodings = ['autoencoder16', 'pca16']
 #Embeddings = ['Amplitude-Hybrid2-1', 'Amplitude-Hybrid2-2', 'Amplitude-Hybrid2-3', 'Amplitude-Hybrid2-4']
 
 # Angular Hybrid Test 2 qubits
-#Encodings = ['autoencoder12', 'pca12']
-#Embeddings = ['Angular-Hybrid2-1', 'Angular-Hybrid2-2', 'Angular-Hybrid2-3', 'Angular-Hybrid2-4']
+Encodings = ['autoencoder12', 'pca12']
+Embeddings = ['Angular-Hybrid2-1', 'Angular-Hybrid2-2', 'Angular-Hybrid2-3', 'Angular-Hybrid2-4']
 
 #Run the code
 Best_trained_params_list = Benchmarking_Hybrid_Accuracy(dataset, classes, Encodings, Embeddings, N)
