@@ -80,7 +80,8 @@ def data_load_and_process(dataset, classes=[0, 1], feature_reduction='resize256'
 
         # Rescale for angle embedding
         if feature_reduction == 'pca8' or feature_reduction == 'pca6' or feature_reduction == 'pca30':
-            X_train, X_test = (X_train + 10) * (np.pi / 20), (X_test + 10) * (np.pi / 20)
+            X_train, X_test = (X_train - X_train.min()) * (np.pi / (X_train.max() - X_train.min())),\
+                              (X_test - X_test.min()) * (np.pi / (X_test.max() - X_test.min()))
         return X_train, X_test, Y_train, Y_test
 
     elif feature_reduction == 'autoencoder8' or feature_reduction == 'autoencoder32' or feature_reduction == 'autoencoder16'\
@@ -128,7 +129,7 @@ def data_load_and_process(dataset, classes=[0, 1], feature_reduction='resize256'
         # Rescale for Angle Embedding
         # Note this is not a rigorous rescaling method
         if feature_reduction == 'autoencoder8' or feature_reduction == 'autoencoder6' or feature_reduction == 'autoencoder30':
-            X_train, X_test = X_train * (np.pi / 50), X_test * (np.pi / 50)
+            X_train, X_test = X_train * (np.pi / X_train.max()), X_test * (np.pi / X_test.max())
 
         return X_train, X_test, Y_train, Y_test
 
