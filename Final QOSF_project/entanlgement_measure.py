@@ -10,7 +10,6 @@ import Benchmarking
 
 dev = qml.device('default.qubit', wires=8)
 
-qml.enable_tape()
 @qml.qnode(dev)
 def QCNN_partial_trace(X, params, embedding_type='Angular-Hybrid4', qubit_index=0):
     embedding.data_embedding(X, embedding_type)
