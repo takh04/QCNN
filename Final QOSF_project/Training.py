@@ -41,13 +41,9 @@ def circuit_training(X_train, Y_train, U, U_params, embedding_type, circuit):
         batch_index = np.random.randint(0, len(X_train), (batch_size,))
         X_batch = [X_train[i] for i in batch_index]
         Y_batch = [Y_train[i] for i in batch_index]
-        try:
-            params, cost_new = opt.step_and_cost(lambda v: cost(v, X_batch, Y_batch, U, U_params, embedding_type, circuit),
-                                                     params)
-        except ValueError:
-            print("Value error raised!")
-            pass
 
+        params, cost_new = opt.step_and_cost(lambda v: cost(v, X_batch, Y_batch, U, U_params, embedding_type, circuit),
+                                                     params)
         loss_history.append(cost_new)
         if it % 10 == 0:
             print("iteration: ", it, " cost: ", cost_new)
