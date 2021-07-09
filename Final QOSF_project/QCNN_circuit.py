@@ -37,8 +37,10 @@ def QCNN_structure(U, params, U_params):
     #pooling_layer2(unitary.Pooling_ansatz1, param4)
     FullyConnectedLayer(U, param3)
 
+IBMQ_token = '8bb356dbce6239ab97a01ff8a9d369b72b1b4fadc3ffb60f7fc1e350efcc3f8cd0c43543b3b0b41f888b7eb741e1af8a7ea37316adf87e3e4e7270c17b0bb6e6'
 
 
+#dev = qml.device('qiskit.ibmq', wires=8, backend='ibmq_16_melbourne', ibmqx_token=IBMQ_token)
 dev = qml.device('default.qubit', wires = 8)
 @qml.qnode(dev)
 def QCNN(X, params, U, U_params, embedding_type='Amplitude'):
