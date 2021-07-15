@@ -101,10 +101,11 @@ circuit = 'QCNN'
 N_samples = 1000
 
 
-Encodings = ['pca30-1', 'autoencoder30-1', 'pca12-1', 'autoencoder12-1', 'pca32-1', 'autoencoder32-1', 'pca16-1', 'autoencoder16-1',
-             'pca30-2', 'autoencoder30-2', 'pca12-2', 'autoencoder12-2', 'pca32-2', 'autoencoder32-2', 'pca16-2', 'autoencoder16-2',
-             'pca30-3', 'autoencoder30-3', 'pca12-3', 'autoencoder12-3', 'pca32-3', 'autoencoder32-3', 'pca16-3', 'autoencoder16-3',
-             'pca30-4', 'autoencoder30-4', 'pca12-4', 'autoencoder12-4', 'pca32-4', 'autoencoder32-4', 'pca16-4', 'autoencoder16-4']
+#Encodings = ['pca30-1', 'autoencoder30-1', 'pca12-1', 'autoencoder12-1', 'pca32-1', 'autoencoder32-1', 'pca16-1', 'autoencoder16-1',
+#             'pca30-2', 'autoencoder30-2', 'pca12-2', 'autoencoder12-2', 'pca32-2', 'autoencoder32-2', 'pca16-2', 'autoencoder16-2',
+#             'pca30-3', 'autoencoder30-3', 'pca12-3', 'autoencoder12-3', 'pca32-3', 'autoencoder32-3', 'pca16-3', 'autoencoder16-3',
+#             'pca30-4', 'autoencoder30-4', 'pca12-4', 'autoencoder12-4', 'pca32-4', 'autoencoder32-4', 'pca16-4', 'autoencoder16-4']
 
+Encodings = ['autoencoder30-3']
 best_trained_params_list = Benchmarking_Hybrid_Accuracy(dataset, classes, Unitary, U_num_param, Encodings, circuit, binary=True)
 Benchmarking_Hybrid_Entanglement(dataset, classes, Encodings, N_samples, best_trained_params_list)
