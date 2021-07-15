@@ -1,16 +1,25 @@
 # This is an implementation of data_embedding function used for 8 qubits Quantum Convolutional Neural Network (QCNN)
 # and Hierarchical Quantum Classifier circuit.
+import pennylane as qml
 from pennylane.templates.embeddings import AmplitudeEmbedding, AngleEmbedding
 from pennylane.templates.state_preparations import MottonenStatePreparation
 import numpy as np
 from Angular_hybrid import Angular_Hybrid_4, Angular_Hybrid_2
 
+def CompactAngleEmbedding(X, wires):
+    X1, X2, X3, X4, X5, X6, X7, X8 = X[:2], X[2:4], X[4:6], X[6:8], X[8:10], X[10:12], X[12:14], X[14:15]
+    X = [X1, X2, X3, X4, X5, X6, X7, X8]
+    for i in range(8):
+        qml.RX(X[i], wires=wires[i])
+        qml.RY(X[i], wires=wires[i])
 
 def data_embedding(X, embedding_type='Amplitude'):
     if embedding_type == 'Amplitude':
         AmplitudeEmbedding(X, wires=range(8), normalize=True)
     elif embedding_type == 'Angle':
         AngleEmbedding(X, wires=range(8), rotation='Y')
+    elif embedding_type == 'Angle-compact':
+        CompactAngleEmbedding(X, wires=range(8))
     elif embedding_type == 'Amplitude-Hybrid4':
         X1 = X[:2 ** 4]
         X2 = X[2 ** 4:2 ** 5]
