@@ -113,6 +113,12 @@ def Encoding_to_Embedding(Encoding):
         Embedding = 'Angular-Hybrid2-4'
     elif Encoding == 'autoencoder12-4':
         Embedding = 'Angular-Hybrid2-4'
+
+    # Two Gates Compact Encoding
+    elif Encoding == 'pca16-compact':
+        Embedding = 'Angle-compact'
+    elif Encoding == 'autoencoder-compact':
+        Embedding = 'Angle-compact'
     return Embedding
 
 
