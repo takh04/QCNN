@@ -8,8 +8,8 @@ pca32 = ['pca32-1', 'pca32-2', 'pca32-3', 'pca32-4']
 autoencoder32 = ['autoencoder32-1', 'autoencoder32-2', 'autoencdoer32-3', 'autoencoder32-4']
 pca30 = ['pca30-1', 'pca30-2', 'pca30-3', 'pca30-4']
 autoencoder30 = ['autoencoder30-1', 'autoencoder30-2', 'autoencoder30-3', 'autoencoder30-4']
-pca16 = ['pca16-1', 'pca16-2', 'pca16-3', 'pca16-4']
-autoencoder16 = ['autoencoder16-1', 'autoencoder16-2', 'autoencoder16-3', 'autoencoder16-4']
+pca16 = ['pca16-1', 'pca16-2', 'pca16-3', 'pca16-4', 'pca16-compact']
+autoencoder16 = ['autoencoder16-1', 'autoencoder16-2', 'autoencoder16-3', 'autoencoder16-4', 'autoencoder16-compact']
 pca12 = ['pca12-1', 'pca12-2', 'pca12-3', 'pca12-4']
 autoencoder12 = ['autoencoder12-1', 'autoencoder12-2', 'autoencoder12-3', 'autoencoder12-4']
 
@@ -86,7 +86,8 @@ def data_load_and_process(dataset, classes=[0, 1], feature_reduction='resize256'
         X_test = pca.transform(X_test)
 
         # Rescale for angle embedding
-        if feature_reduction == 'pca8' or feature_reduction in pca30 or feature_reduction in pca12:
+        if feature_reduction == 'pca8' or feature_reduction == 'pca16-compact' or \
+                feature_reduction in pca30 or feature_reduction in pca12:
             X_train, X_test = (X_train - X_train.min()) * (np.pi / (X_train.max() - X_train.min())),\
                               (X_test - X_test.min()) * (np.pi / (X_test.max() - X_test.min()))
         return X_train, X_test, Y_train, Y_test
@@ -136,7 +137,8 @@ def data_load_and_process(dataset, classes=[0, 1], feature_reduction='resize256'
 
         # Rescale for Angle Embedding
         # Note this is not a rigorous rescaling method
-        if feature_reduction == 'autoencoder8' or feature_reduction in autoencoder30 or feature_reduction in autoencoder12:
+        if feature_reduction == 'autoencoder8' or feature_reduction == 'autoencoder16-compact' or\
+                feature_reduction in autoencoder30 or feature_reduction in autoencoder12:
             X_train, X_test = (X_train - X_train.min()) * (np.pi / (X_train.max() - X_train.min())), \
                               (X_test - X_test.min()) * (np.pi / (X_test.max() - X_test.min()))
 
