@@ -5,7 +5,7 @@ import unitary
 import embedding
 
 def conv_layer1(U, params):
-    #U(params, wires=[0, 7])
+    U(params, wires=[0, 7])
     for i in range(0, 8, 2):
         U(params, wires=[i, i + 1])
     for i in range(1, 7, 2):
@@ -14,7 +14,7 @@ def conv_layer2(U, params):
     U(params, wires=[0, 2])
     U(params, wires=[4, 6])
     U(params, wires=[2, 4])
-    #U(params, wires=[0, 6])
+    U(params, wires=[0, 6])
 def pooling_layer1(V, params):
     for i in range(0, 8, 2):
         V(params, wires = [i + 1, i])
