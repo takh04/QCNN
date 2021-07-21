@@ -5,7 +5,7 @@ from sklearn.decomposition import PCA
 from tensorflow.keras.models import Model
 from tensorflow.keras import layers, losses
 pca32 = ['pca32-1', 'pca32-2', 'pca32-3', 'pca32-4']
-autoencoder32 = ['autoencoder32-1', 'autoencoder32-2', 'autoencdoer32-3', 'autoencoder32-4']
+autoencoder32 = ['autoencoder32-1', 'autoencoder32-2', 'autoencoder32-3', 'autoencoder32-4']
 pca30 = ['pca30-1', 'pca30-2', 'pca30-3', 'pca30-4']
 autoencoder30 = ['autoencoder30-1', 'autoencoder30-2', 'autoencoder30-3', 'autoencoder30-4']
 pca16 = ['pca16-1', 'pca16-2', 'pca16-3', 'pca16-4', 'pca16-compact']
