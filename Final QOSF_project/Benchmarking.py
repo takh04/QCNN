@@ -117,7 +117,7 @@ def Encoding_to_Embedding(Encoding):
     # Two Gates Compact Encoding
     elif Encoding == 'pca16-compact':
         Embedding = 'Angle-compact'
-    elif Encoding == 'autoencoder-compact':
+    elif Encoding == 'autoencoder16-compact':
         Embedding = 'Angle-compact'
     return Embedding
 
@@ -127,7 +127,7 @@ def Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit, 
     J = len(Encodings)
 
     # save the result in the result.txt file
-    f = open('Result/result.txt', 'w')
+    f = open('Result/result.txt', 'a')
 
     for i in range(I):
         for j in range(J):
