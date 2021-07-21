@@ -95,12 +95,12 @@ def U_SU4(params, wires): # 15 params
 # Pooling Layer
 
 def Pooling_ansatz1(params, wires): #2 params
-    qml.CRZ(params[0], wires = [wires[0], wires[1]])
-    qml.PauliX(wires = wires[0])
-    qml.CRX(params[1], wires = [wires[0], wires[1]])
+    qml.CRZ(params[0], wires=[wires[0], wires[1]])
+    qml.PauliX(wires=wires[0])
+    qml.CRX(params[1], wires=[wires[0], wires[1]])
 
 def Pooling_ansatz2(wires): #0 params
-    qml.CRZ(wires = [wires[0], wires[1]])
+    qml.CRZ(wires=[wires[0], wires[1]])
 
 def Pooling_ansatz3(*params, wires): #3 params
-    qml.CRot(*params, wires = [wires[0], wires[1]])
+    qml.CRot(*params, wires=[wires[0], wires[1]])
