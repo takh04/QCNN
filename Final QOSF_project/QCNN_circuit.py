@@ -12,10 +12,10 @@ def conv_layer1(U, params):
     for i in range(1, 7, 2):
         U(params, wires=[i, i + 1])
 def conv_layer2(U, params):
+    U(params, wires=[0, 6])
     U(params, wires=[0, 2])
     U(params, wires=[4, 6])
     U(params, wires=[2, 4])
-    U(params, wires=[0, 6])
 def conv_layer3(U, params):
     U(params, wires=[0,4])
 
