@@ -101,3 +101,6 @@ def Pooling_ansatz1(params, wires): #2 params
 
 def Pooling_ansatz2(wires): #0 params
     qml.CRZ(wires = [wires[0], wires[1]])
+
+def Pooling_ansatz3(*params, wires): #3 params
+    qml.CRot(*params, wires = [wires[0], wires[1]])
