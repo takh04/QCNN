@@ -52,6 +52,16 @@ def QCNN_structure(U, params, U_params):
     pooling_layer3(unitary.Pooling_ansatz1, param6)
 
 
+def QCNN_structure_without_pooling(U, params, U_params):
+    param1 = params[0:U_params]
+    param2 = params[U_params: 2 * U_params]
+    param3 = params[2 * U_params: 3 * U_params]
+
+    conv_layer1(U, param1)
+    conv_layer2(U, param2)
+    conv_layer3(U, param3)
+
+
 dev = qml.device('default.qubit', wires = 8)
 @qml.qnode(dev)
 def QCNN(X, params, U, U_params, embedding_type='Amplitude'):
@@ -79,6 +89,8 @@ def QCNN(X, params, U, U_params, embedding_type='Amplitude'):
         QCNN_structure(unitary.U_SO4, params, U_params)
     elif U == 'U_SU4':
         QCNN_structure(unitary.U_SU4, params, U_params)
+    elif U == 'U_SU4_no_pooling':
+        QCNN_structure_without_pooling(unitary.U_SU4, params, U_params)
 
     else:
         print("Invalid Unitary Ansatze")
