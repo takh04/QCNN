@@ -1,7 +1,7 @@
 # This generates the results of the bechmarking code
 
 import Benchmarking
-import qiskit
+
 
 #########
 # Here are possible combinations of benchmarking user could try.
@@ -13,11 +13,11 @@ import qiskit
 
 Unitaries = ['U_SU4']
 U_num_params = [15]
-Encodings = ['pca8']
+Encodings = ['resize256', 'autoencoder8', 'pca8', 'pca16-compact', 'autoencoder16-compact']
 dataset = 'mnist'
 circuit = 'QCNN'
 classes = [0,1]
 
-
-Benchmarking.Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit)
+for i in range(5):
+    Benchmarking.Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit)
 

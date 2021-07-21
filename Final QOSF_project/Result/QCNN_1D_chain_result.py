@@ -23,3 +23,4 @@ print("PCA8: " + str(PCA8_mean) + " " + str(PCA8_std))
 print("AE8: " + str(AE8_mean) + " " + str(AE8_std))
 print("PCA16: " + str(PCA16_mean) + " " + str(PCA16_std))
 print("AE16: " + str(AE16_mean) + " " + str(AE16_std))
+

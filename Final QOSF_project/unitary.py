@@ -100,4 +100,4 @@ def Pooling_ansatz1(params, wires): #2 params
     qml.CRX(params[1], wires = [wires[0], wires[1]])
 
 def Pooling_ansatz2(wires): #0 params
-    qml.CNOT(wires = [wires[0], wires[1]])
+    qml.CRZ(wires = [wires[0], wires[1]])

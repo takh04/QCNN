@@ -71,6 +71,7 @@ def Benchmarking_Hybrid_Accuracy(dataset, classes, Unitary, U_num_param, Encodin
 def Benchmarking_Hybrid_Entanglement(dataset, classes, Encodings, N_samples, best_trained_params_list):
     for i in range(len(Encodings)):
         Encoding = Encodings[i]
+        print("Processing " + str(Encoding) + ".....\n")
         Embedding = Encoding_to_Embedding(Encoding)
         best_trained_params = best_trained_params_list[i]
         best_trained_params = best_trained_params[:15]
@@ -107,5 +108,5 @@ N_samples = 1000
 #             'pca30-4', 'autoencoder30-4', 'pca12-4', 'autoencoder12-4', 'pca32-4', 'autoencoder32-4', 'pca16-4', 'autoencoder16-4']
 
 Encodings = ['autoencoder30-3']
-best_trained_params_list = Benchmarking_Hybrid_Accuracy(dataset, classes, Unitary, U_num_param, Encodings, circuit, binary=True)
-Benchmarking_Hybrid_Entanglement(dataset, classes, Encodings, N_samples, best_trained_params_list)
+#best_trained_params_list = Benchmarking_Hybrid_Accuracy(dataset, classes, Unitary, U_num_param, Encodings, circuit, binary=True)
+#Benchmarking_Hybrid_Entanglement(dataset, classes, Encodings, N_samples, best_trained_params_list)
