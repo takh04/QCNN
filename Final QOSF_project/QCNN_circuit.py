@@ -4,6 +4,7 @@ import pennylane as qml
 import unitary
 import embedding
 
+# Convolutional layers
 def conv_layer1(U, params):
     U(params, wires=[0, 7])
     for i in range(0, 8, 2):
@@ -15,32 +16,42 @@ def conv_layer2(U, params):
     U(params, wires=[4, 6])
     U(params, wires=[2, 4])
     U(params, wires=[0, 6])
+def conv_layer3(U, params):
+    U(params, wires=[0,4])
+
+# Pooling layers
 def pooling_layer1(V, params):
     for i in range(0, 8, 2):
-        V(params, wires = [i + 1, i])
+        V(params, wires=[i + 1, i])
 def pooling_layer2(V, params):
-    V(params, wires = [2,0])
-    V(params, wires = [6,4])
-def FullyConnectedLayer(U, params):
-    U(params, wires = [0,4])
+    V(params, wires=[2,0])
+    V(params, wires=[6,4])
+def pooling_layer3(V, params):
+    V(params, wires=[0,4])
+
 
 
 def QCNN_structure(U, params, U_params):
 
     param1 = params[0:U_params]
     param2 = params[U_params: 2 * U_params]
-    param3 = params[2 * U_params: 3 * U_params ]
+    param3 = params[2 * U_params: 3 * U_params]
+
+    param4 = params[3 * U_params: 3 * U_params + 2]
+    param5 = params[3 * U_params + 2: 3 * U_params + 4]
+    param6 = params[3 * U_params + 4: 3 * U_params + 6]
+
 
     conv_layer1(U, param1)
-    #pooling_layer1(unitary.Pooling_ansatz1, param2)
+    pooling_layer1(unitary.Pooling_ansatz1, param4)
+
     conv_layer2(U, param2)
-    #pooling_layer2(unitary.Pooling_ansatz1, param4)
-    FullyConnectedLayer(U, param3)
+    pooling_layer2(unitary.Pooling_ansatz1, param5)
 
-#IBMQ_token = '8bb356dbce6239ab97a01ff8a9d369b72b1b4fadc3ffb60f7fc1e350efcc3f8cd0c43543b3b0b41f888b7eb741e1af8a7ea37316adf87e3e4e7270c17b0bb6e6'
+    conv_layer3(U, param3)
+    pooling_layer3(unitary.Pooling_ansatz1, param6)
 
 
-#dev = qml.device('qiskit.ibmq', wires=8, backend='ibmq_qasm_simulator', ibmqx_token=IBMQ_token)
 dev = qml.device('default.qubit', wires = 8)
 @qml.qnode(dev)
 def QCNN(X, params, U, U_params, embedding_type='Amplitude'):
