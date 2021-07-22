@@ -1,58 +1,100 @@
-import tensorflow as tf
-import numpy as np
-from tensorflow.keras import layers, models
 import data
+import Benchmarking
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import torch.optim as optim
+from torchvision import datasets, transforms
+import matplotlib.pyplot as plt
 
-dataset = 'mnist'
-classes = [0,1]
-Encodings = ['pca8']
+def get_n_params(model):
+    np=0
+    for p in list(model.parameters()):
+        np += p.nelement()
+    return np
 
-learning_rate = 0.01
-steps = 200
+def accuracy_test(predictions, labels):
+    acc = 0
+    for (p,l) in zip(predictions, labels):
+        if p[0] >= p[1]:
+            pred = 0
+        else:
+            pred = 1
+
+        if pred == l:
+            acc = acc + 1
+    acc = acc / len(labels)
+    return acc
+
+n_feature = 3
 batch_size = 25
+steps = 200
 
-def CNN(Encodings):
-    for Encoding in Encodings:
+def Benchmarking_CNN(dataset, classes, Encodings, Encodings_size, binary):
+    for i in range(len(Encodings)):
+        Encoding = Encodings[i]
+        input_size = Encodings_size[i]
+        final_layer_size = int(input_size / 4)
+        CNN = nn.Sequential(
+            nn.Conv1d(in_channels=1, out_channels=n_feature, kernel_size=2, padding=1),
+            nn.ReLU(),
+            nn.MaxPool1d(kernel_size=2),
+            nn.Conv1d(in_channels=n_feature, out_channels=n_feature, kernel_size=2, padding=1),
+            nn.ReLU(),
+            nn.MaxPool1d(kernel_size=2),
+            nn.Flatten(),
+            nn.Linear(n_feature * final_layer_size, 2)
+        )
 
-        X_train, X_test, Y_train, Y_test = data.data_load_and_process(dataset, classes, feature_reduction = Encoding, binary = True)
-        X_train = np.array([np.reshape(X_train[i], (8, 1, 1)) for i in range(len(X_train))])
-        X_test = np.array([np.reshape(X_test[i], (8, 1, 1)) for i in range(len(X_test))])
-
-        optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate, beta_1=0.9, beta_2=0.99, epsilon=1e-08, amsgrad=False,name='Adam')
-
-        accuracy = []
-
-
-        model = models.Sequential()
-        model.add(layers.Conv2D(3, (2, 1), activation='relu', input_shape=(8, 1, 1)))
-        model.add(layers.MaxPooling2D((2, 1)))
-        model.add(layers.Conv2D(3, (2, 1), activation='relu'))
-        model.add(layers.MaxPooling2D((2, 1)))
-        model.add(layers.Flatten())
-        # model.add(layers.Dense(4, activation='relu'))
-        model.add(layers.Dense(1, activation='softmax'))
-
-        # Compile CNN
-        model.compile(optimizer=optimizer, loss='mean_squared_error', metrics=['accuracy'])
+        loss_history = []
+        X_train, X_test, Y_train, Y_test = data.data_load_and_process(dataset, classes, feature_reduction = Encoding, binary =binary)
 
         for it in range(steps):
-            # Generate Random Batch
-            batch_index = np.random.randint(0, 12665, (batch_size,))
-            X_batch = np.array([X_train[i] for i in batch_index])
-            Y_batch = np.array([Y_train[i] for i in batch_index])
+            batch_idx = np.random.randint(0, len(X_train), batch_size)
+            X_train_batch = np.array([X_train[i] for i in batch_idx])
+            Y_train_batch = np.array([Y_train[i] for i in batch_idx])
 
-            # Train CNN
-            model.fit(X_batch, Y_batch, batch_size=batch_size, epochs=1)
+            X_train_batch_torch = torch.tensor(X_train_batch, dtype=torch.float32)
+            X_train_batch_torch.resize_(batch_size, 1, input_size)
+            Y_train_batch_torch = torch.tensor(Y_train_batch, dtype=torch.long)
 
-            Y_pred = model(X_batch)
+            criterion = nn.CrossEntropyLoss()
+            optimizer = torch.optim.Adam(CNN.parameters(), lr=0.01, betas=(0.9, 0.999))
 
-            loss = tf.keras.losses.mean_squared_error(Y_pred, Y_batch)
+            Y_pred_batch_torch = CNN(X_train_batch_torch)
+
+            loss = criterion(Y_pred_batch_torch, Y_train_batch_torch)
+            loss_history.append(loss.item())
             if it % 10 == 0:
-                print(loss)
+                print("[iteration]: %i, [LOSS]: %.6f" % (it, loss.item()))
 
-        test_loss, test_acc = model.evaluate(X_test, Y_test, verbose=2)
-        accuracy.append(test_acc)
-        # Clear CNN Model
-        tf.keras.backend.clear_session()
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
 
-CNN(Encodings)
+        X_test_torch = torch.tensor(X_test, dtype=torch.float32)
+        X_test_torch.resize_(len(X_test), 1, input_size)
+        Y_pred = CNN(X_test_torch).detach().numpy()
+        accuracy = accuracy_test(Y_pred, Y_test)
+        N_params = get_n_params(CNN)
+
+        f = open('Result/result_CNN.txt', 'a')
+        f.write("Loss History for CNN with " + str(Encoding) + ":" )
+        f.write("\n")
+        f.write(str(loss_history))
+        f.write("\n")
+        f.write("Accuracy for CNN with " + str(Encoding) + ": " + str(accuracy))
+        f.write("\n")
+        f.write("Number of Parameters used to train CNN: " + str(N_params))
+        f.write("\n")
+        f.write("\n")
+
+    f.close()
+
+dataset = 'fashion_mnist'
+classes = [0,1]
+binary = False
+Encodings = ['resize256', 'pca8', 'autoencoder8', 'pca16-compact', 'autoencoder16-compact']
+Encodings_size = [256, 8, 8, 16, 16]
+Benchmarking_CNN(dataset=dataset, classes=classes, Encodings=Encodings, Encodings_size=Encodings_size, binary=binary)
