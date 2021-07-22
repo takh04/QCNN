@@ -60,7 +60,7 @@ def data_load_and_process(dataset, classes=[0, 1], feature_reduction='resize256'
     if feature_reduction == 'resize256':
         X_train = tf.image.resize(X_train[:], (256, 1)).numpy()
         X_test = tf.image.resize(X_test[:], (256, 1)).numpy()
-        X_train, X_test = tf.squeeze(X_train), tf.squeeze(X_test)
+        X_train, X_test = tf.squeeze(X_train).numpy(), tf.squeeze(X_test).numpy()
         return X_train, X_test, Y_train, Y_test
 
     elif feature_reduction == 'pca8' or feature_reduction in pca32 \
