@@ -107,21 +107,23 @@ best_params_PCA32_4 = np.array([0.4230195,   2.7286911,  -0.41256235,  1.3127055
   0.48718606,  0.38478032, -1.10212535, -0.24763978, -1.50454953, -0.58996708,
   0.07422592, -0.52233659, -1.9150038])
 
-Encodings = ['pca30-1', 'autoencoder30-1', 'pca12-1', 'autoencoder12-1', 'pca32-1', 'autoencoder32-1', 'pca16-1', 'autoencoder16-1',
-             'pca30-2', 'autoencoder30-2', 'pca12-2', 'autoencoder12-2', 'pca32-2', 'autoencoder32-2', 'pca16-2', 'autoencoder16-2',
-             'pca30-3', 'autoencoder30-3', 'pca12-3', 'autoencoder12-3', 'pca32-3', 'autoencoder32-3', 'pca16-3', 'autoencoder16-3',
-             'pca30-4', 'autoencoder30-4', 'pca12-4', 'autoencoder12-4', 'pca32-4', 'autoencoder32-4', 'pca16-4', 'autoencoder16-4']
+#Encodings = ['pca30-1', 'autoencoder30-1', 'pca12-1', 'autoencoder12-1', 'pca32-1', 'autoencoder32-1', 'pca16-1', 'autoencoder16-1',
+#             'pca30-2', 'autoencoder30-2', 'pca12-2', 'autoencoder12-2', 'pca32-2', 'autoencoder32-2', 'pca16-2', 'autoencoder16-2',
+#             'pca30-3', 'autoencoder30-3', 'pca12-3', 'autoencoder12-3', 'pca32-3', 'autoencoder32-3', 'pca16-3', 'autoencoder16-3',
+#             'pca30-4', 'autoencoder30-4', 'pca12-4', 'autoencoder12-4', 'pca32-4', 'autoencoder32-4', 'pca16-4', 'autoencoder16-4']
 
-best_params = [best_params_PCA30_1, best_params_AE30_1, best_params_PCA12_1, best_params_AE12_1, best_params_PCA32_1, best_params_AE32_1, best_params_PCA16_1, best_params_AE16_1,
-               best_params_PCA30_2, best_params_AE30_2, best_params_PCA12_2, best_params_AE12_2, best_params_PCA32_2, best_params_AE32_2, best_params_PCA16_2, best_params_AE16_2,
-               best_params_PCA30_3, best_params_AE30_3, best_params_PCA12_3, best_params_AE12_3, best_params_PCA32_3, best_params_AE32_3, best_params_PCA16_3, best_params_AE16_3,
-               best_params_PCA30_4, best_params_AE30_4, best_params_PCA12_4, best_params_AE12_4, best_params_PCA32_4, best_params_AE32_4, best_params_PCA16_4, best_params_AE16_4]
+#best_params = [best_params_PCA30_1, best_params_AE30_1, best_params_PCA12_1, best_params_AE12_1, best_params_PCA32_1, best_params_AE32_1, best_params_PCA16_1, best_params_AE16_1,
+#               best_params_PCA30_2, best_params_AE30_2, best_params_PCA12_2, best_params_AE12_2, best_params_PCA32_2, best_params_AE32_2, best_params_PCA16_2, best_params_AE16_2,
+#               best_params_PCA30_3, best_params_AE30_3, best_params_PCA12_3, best_params_AE12_3, best_params_PCA32_3, best_params_AE32_3, best_params_PCA16_3, best_params_AE16_3,
+#               best_params_PCA30_4, best_params_AE30_4, best_params_PCA12_4, best_params_AE12_4, best_params_PCA32_4, best_params_AE32_4, best_params_PCA16_4, best_params_AE16_4]
 
+Encodings = ['autoencoder16-4']
+best_params = [best_params_AE16_4]
 dataset = 'mnist'
 classes = [0,1]
 Unitary = 'U_SU4'
 U_num_param = 15
 circuit = 'QCNN'
-N_samples = 1000
+N_samples = 5000
 
 Hybrid_embedding_accuracy.Benchmarking_Hybrid_Entanglement(dataset, classes, Encodings, N_samples, best_params)
