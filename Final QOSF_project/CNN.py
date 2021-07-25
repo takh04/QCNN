@@ -31,7 +31,7 @@ n_feature = 3
 batch_size = 25
 steps = 200
 
-def Benchmarking_CNN(dataset, classes, Encodings, Encodings_size, binary):
+def Benchmarking_CNN(dataset, classes, Encodings, Encodings_size, binary, optimizer):
     for i in range(len(Encodings)):
         Encoding = Encodings[i]
         input_size = Encodings_size[i]
@@ -60,7 +60,10 @@ def Benchmarking_CNN(dataset, classes, Encodings, Encodings_size, binary):
             Y_train_batch_torch = torch.tensor(Y_train_batch, dtype=torch.long)
 
             criterion = nn.CrossEntropyLoss()
-            optimizer = torch.optim.Adam(CNN.parameters(), lr=0.01, betas=(0.9, 0.999))
+            if optimizer == 'adam':
+                opt = torch.optim.Adam(CNN.parameters(), lr=0.01, betas=(0.9, 0.999))
+            elif optimizer == 'nesterov':
+                opt = torch.optim.SGD(CNN.parameters(), lr = 0.01, momentum=0.9, nesterov=True)
 
             Y_pred_batch_torch = CNN(X_train_batch_torch)
 
@@ -69,9 +72,9 @@ def Benchmarking_CNN(dataset, classes, Encodings, Encodings_size, binary):
             if it % 10 == 0:
                 print("[iteration]: %i, [LOSS]: %.6f" % (it, loss.item()))
 
-            optimizer.zero_grad()
+            opt.zero_grad()
             loss.backward()
-            optimizer.step()
+            opt.step()
 
         X_test_torch = torch.tensor(X_test, dtype=torch.float32)
         X_test_torch.resize_(len(X_test), 1, input_size)
@@ -84,7 +87,7 @@ def Benchmarking_CNN(dataset, classes, Encodings, Encodings_size, binary):
         f.write("\n")
         f.write(str(loss_history))
         f.write("\n")
-        f.write("Accuracy for CNN with " + str(Encoding) + ": " + str(accuracy))
+        f.write("Accuracy for CNN with " + str(Encoding) + " " +optimizer + ": " + str(accuracy))
         f.write("\n")
         f.write("Number of Parameters used to train CNN: " + str(N_params))
         f.write("\n")
@@ -97,4 +100,8 @@ classes = [0,1]
 binary = False
 Encodings = ['resize256', 'pca8', 'autoencoder8', 'pca16-compact', 'autoencoder16-compact']
 Encodings_size = [256, 8, 8, 16, 16]
-Benchmarking_CNN(dataset=dataset, classes=classes, Encodings=Encodings, Encodings_size=Encodings_size, binary=binary)
+
+for i in range(5):
+    Benchmarking_CNN(dataset=dataset, classes=classes, Encodings=Encodings, Encodings_size=Encodings_size, binary=binary, optimizer='adam')
+    Benchmarking_CNN(dataset=dataset, classes=classes, Encodings=Encodings, Encodings_size=Encodings_size,
+                     binary=binary, optimizer='nesterov')
