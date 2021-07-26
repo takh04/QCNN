@@ -79,7 +79,7 @@ def Benchmarking_CNN(dataset, classes, Encodings, Encodings_size, binary, optimi
             N_params = get_n_params(CNN)
 
 
-        f = open('Result/result_CNN.txt', 'a')
+        f = open('Result/loss history CCN .txt', 'a')
         f.write("Loss History for CNN with " + str(Encoding) + ":" )
         f.write("\n")
         f.write(str(loss_history))
