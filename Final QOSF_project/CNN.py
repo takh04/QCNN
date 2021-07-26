@@ -27,11 +27,7 @@ def accuracy_test(predictions, labels):
     acc = acc / len(labels)
     return acc
 
-n_feature = 3
-batch_size = 25
-steps = 200
-
-def CNN_training(X_train, X_test, Y_train, Y_test, input_size, optimizer):
+def CNN_training(X_train, X_test, Y_train, Y_test, input_size, optimizer, steps, n_feature, batch_size):
     final_layer_size = int(input_size / 4)
     CNN = nn.Sequential(
         nn.Conv1d(in_channels=1, out_channels=n_feature, kernel_size=2, padding=1),
@@ -81,13 +77,13 @@ def CNN_training(X_train, X_test, Y_train, Y_test, input_size, optimizer):
 
 
 
-def Benchmarking_CNN(dataset, classes, Encodings, Encodings_size, binary, optimizer):
+def Benchmarking_CNN(dataset, classes, Encodings, Encodings_size, binary, optimizer, steps, n_feature, batch_size):
     for i in range(len(Encodings)):
         Encoding = Encodings[i]
         input_size = Encodings_size[i]
 
         X_train, X_test, Y_train, Y_test = data.data_load_and_process(dataset, classes, feature_reduction = Encoding, binary =binary)
-        loss_history, accuracy, N_params = CNN_training(X_train, X_test, Y_train, Y_test, input_size, optimizer)
+        loss_history, accuracy, N_params = CNN_training(X_train, X_test, Y_train, Y_test, input_size, optimizer, steps, n_feature, batch_size)
 
         f = open('Result/result_CNN.txt', 'a')
         f.write("Loss History for CNN with " + str(Encoding) + ":" )
@@ -102,6 +98,7 @@ def Benchmarking_CNN(dataset, classes, Encodings, Encodings_size, binary, optimi
 
     f.close()
 
+steps = 200
 dataset = 'fashion_mnist'
 classes = [0,1]
 binary = False
@@ -109,6 +106,7 @@ Encodings = ['resize256', 'pca8', 'autoencoder8', 'pca16-compact', 'autoencoder1
 Encodings_size = [256, 8, 8, 16, 16]
 
 for i in range(5):
-    Benchmarking_CNN(dataset=dataset, classes=classes, Encodings=Encodings, Encodings_size=Encodings_size, binary=binary, optimizer='adam')
     Benchmarking_CNN(dataset=dataset, classes=classes, Encodings=Encodings, Encodings_size=Encodings_size,
-                     binary=binary, optimizer='nesterov')
+                     binary=binary, optimizer='adam', steps=steps, n_feature=3, batch_size=25)
+    Benchmarking_CNN(dataset=dataset, classes=classes, Encodings=Encodings, Encodings_size=Encodings_size,
+                     binary=binary, optimizer='nesterov', steps=steps, n_feature=3, batch_size=25)
