@@ -5,6 +5,7 @@ import pennylane as qml
 def Angular_Hybrid_2(X, wires):
     qml.RY(X[0], wires=wires[0])
 
+    qml.PauliX(wires=wires[0])
     qml.CRY(X[1], wires=[wires[0], wires[1]])
     qml.PauliX(wires=wires[0])
     qml.CRY(X[2], wires=[wires[0], wires[1]])
@@ -13,6 +14,7 @@ def Angular_Hybrid_2(X, wires):
 def Angular_Hybrid_4(X, wires):
     qml.RY(X[0], wires=wires[0])
 
+    qml.PauliX(wires=wires[0])
     qml.CRY(X[1], wires=[wires[0], wires[1]])
     qml.PauliX(wires=wires[0])
     qml.CRY(X[2], wires=[wires[0], wires[1]])
