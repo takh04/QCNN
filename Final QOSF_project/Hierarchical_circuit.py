@@ -28,7 +28,7 @@ def Hierarchical_structure(U, params, U_params):
 
 
 @qml.qnode(dev_TTN)
-def Hierarchical_classifier(X, params, U, U_params, embedding_type='Amplitude'):
+def Hierarchical_classifier(X, params, U, U_params, embedding_type='Amplitude', cost_fn='cross_entropy'):
     embedding.data_embedding(X, embedding_type=embedding_type)
     if U == 'U_TTN':
         Hierarchical_structure(unitary.U_TTN, params, U_params)
@@ -51,4 +51,8 @@ def Hierarchical_classifier(X, params, U, U_params, embedding_type='Amplitude'):
     else:
         print("Invalid Unitary Ansatz")
         return False
-    return qml.expval(qml.PauliZ(7))
+    if cost_fn == 'mse':
+        result = qml.expval(qml.PauliZ(7))
+    elif cost_fn == 'cross_entropy':
+        result = qml.probs(wires=7)
+    return result
