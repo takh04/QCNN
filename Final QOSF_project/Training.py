@@ -61,7 +61,7 @@ def circuit_training(X_train, Y_train, U, U_params, embedding_type, circuit, cos
                                                      params)
         loss_history.append(cost_new)
         if it % 10 == 0:
-            print("iteration: ", it, " cost: ", cost_new + " (" + cost_fn + ") ")
+            print("iteration: ", it, " cost: ", cost_new)
 
     return loss_history, params
 
