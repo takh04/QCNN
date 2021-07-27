@@ -153,7 +153,7 @@ def Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit, 
                                                                           feature_reduction=Encoding, binary=binary)
 
             print("\n")
-            print("Loss History for " + circuit + " circuits, " + U + " " + Encoding)
+            print("Loss History for " + circuit + " circuits, " + U + " " + Encoding + " with " + cost_fn)
             loss_history, trained_params = Training.circuit_training(X_train, Y_train, U, U_params, Embedding, circuit, cost_fn)
 
             if circuit == 'QCNN':
@@ -164,7 +164,7 @@ def Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit, 
             accuracy = accuracy_test(predictions, Y_test, cost_fn, binary)
             print("Accuracy for " + U + " " + Encoding + " :" + str(accuracy))
 
-            f.write("Loss History for " + circuit + " circuits, " + U + " " + Encoding)
+            f.write("Loss History for " + circuit + " circuits, " + U + " " + Encoding + " with " + cost_fn)
             f.write("\n")
             f.write(str(loss_history))
             f.write("\n")
