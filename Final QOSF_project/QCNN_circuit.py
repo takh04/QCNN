@@ -64,7 +64,7 @@ def QCNN_structure_without_pooling(U, params, U_params):
 
 dev = qml.device('default.qubit', wires = 8)
 @qml.qnode(dev)
-def QCNN(X, params, U, U_params, embedding_type='Amplitude'):
+def QCNN(X, params, U, U_params, embedding_type='Amplitude', cost_fn='cross_entropy'):
 
 
     # Data Embedding
@@ -96,4 +96,8 @@ def QCNN(X, params, U, U_params, embedding_type='Amplitude'):
         print("Invalid Unitary Ansatze")
         return False
 
-    return qml.expval(qml.PauliZ(4))
+    if cost_fn == 'mse':
+        result = qml.expval(qml.PauliZ(4))
+    elif cost_fn == 'cross_entropy':
+        result = qml.probs(wires=4)
+    return result
