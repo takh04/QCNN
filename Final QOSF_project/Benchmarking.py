@@ -139,11 +139,9 @@ def Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit, 
     I = len(Unitaries)
     J = len(Encodings)
 
-    # save the result in the loss history QCNN and TTN for MNIST.txt file
-    f = open('Result/Data/Data_txt/loss history/loss history QCNN and Hierarchical for FASHION.txt', 'a')
-
     for i in range(I):
         for j in range(J):
+            f = open('Result/result.txt', 'a')
             U = Unitaries[i]
             U_params = U_num_params[i]
             Encoding = Encodings[j]
