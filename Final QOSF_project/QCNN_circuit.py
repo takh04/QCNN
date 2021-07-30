@@ -109,6 +109,8 @@ def QCNN(X, params, U, U_params, embedding_type='Amplitude', cost_fn='cross_entr
         QCNN_structure_without_pooling(unitary.U_SU4, params, U_params)
     elif U == 'U_SU4_1D':
         QCNN_1D_circuit(unitary.U_SU4, params, U_params)
+    elif U == 'U_9_1D':
+        QCNN_1D_circuit(unitary.U_9, params, U_params)
 
     else:
         print("Invalid Unitary Ansatze")
