@@ -11,15 +11,10 @@ def data_embedding(X, embedding_type='Amplitude'):
     elif embedding_type == 'Angle':
         AngleEmbedding(X, wires=range(8), rotation='Y')
     elif embedding_type == 'Angle-compact':
-        AngleEmbedding(X[:8], wires = range(8), rotation = 'X')
-        AngleEmbedding(X[8:16], wires = range(8), rotation = 'Y')
+        AngleEmbedding(X[:8], wires=range(8), rotation='X')
+        AngleEmbedding(X[8:16], wires=range(8), rotation='Y')
 
-
-    #########################################################################
-    # Hybrid Embedding
-    #########################################################################
-
-    # Amplitude Hybrid
+    # Hybrid Direct Embedding (HDE)
     elif embedding_type == 'Amplitude-Hybrid4-1' or embedding_type == 'Amplitude-Hybrid4-2' or \
             embedding_type == 'Amplitude-Hybrid4-3' or embedding_type == 'Amplitude-Hybrid4-4':
         X1 = X[:2 ** 4]
@@ -40,7 +35,6 @@ def data_embedding(X, embedding_type='Amplitude'):
             MottonenStatePreparation(X1, wires=[0, 3, 4, 7])
             MottonenStatePreparation(X2, wires=[1, 2, 5, 6])
 
-
     elif embedding_type == 'Amplitude-Hybrid2-1' or embedding_type == 'Amplitude-Hybrid2-2' \
             or embedding_type == 'Amplitude-Hybrid2-3' or embedding_type == 'Amplitude-Hybrid2-4':
         X1 = X[:4]
@@ -50,7 +44,6 @@ def data_embedding(X, embedding_type='Amplitude'):
         norm_X1, norm_X2, norm_X3, norm_X4 = np.linalg.norm(X1), np.linalg.norm(X2), np.linalg.norm(X3), np.linalg.norm(
             X4)
         X1, X2, X3, X4 = X1 / norm_X1, X2 / norm_X2, X3 / norm_X3, X4 / norm_X4
-
 
         if embedding_type == 'Amplitude-Hybrid2-1':
             MottonenStatePreparation(X1, wires=[0,1])
@@ -73,7 +66,7 @@ def data_embedding(X, embedding_type='Amplitude'):
             MottonenStatePreparation(X3, wires=[4,6])
             MottonenStatePreparation(X4, wires=[5,7])
 
-    # Angular Hybrid Embedding
+    # Hybrid Angle Embedding (HAE)
     elif embedding_type == 'Angular-Hybrid4-1' or embedding_type == 'Angular-Hybrid4-2' or \
             embedding_type == 'Angular-Hybrid4-3' or embedding_type == 'Angular-Hybrid4-4':
         N = 15 # 15 classical data in 4 qubits
@@ -92,7 +85,6 @@ def data_embedding(X, embedding_type='Amplitude'):
         elif embedding_type == 'Angular-Hybrid4-4':
             Angular_Hybrid_4(X1, wires=[0, 3, 4, 7])
             Angular_Hybrid_4(X2, wires=[1, 2, 5, 6])
-
 
     elif embedding_type == 'Angular-Hybrid2-1' or embedding_type == 'Angular-Hybrid2-2' \
             or embedding_type == 'Angular-Hybrid2-3' or embedding_type == 'Angular-Hybrid2-4':
