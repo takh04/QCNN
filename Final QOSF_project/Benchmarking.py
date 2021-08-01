@@ -173,9 +173,9 @@ def Benchmarking(dataset, classes, Unitaries, U_num_params, Encodings, circuit, 
 
 def Data_norm(dataset, classes, Encodings, binary=True):
     J = len(Encodings)
-    Num_data = 1000
+    Num_data = 10000
 
-    f = open('Result/data_norm.txt', 'w')
+    f = open('Result/data_norm.txt', 'a')
 
     for j in range(J):
         Encoding = Encodings[j]
@@ -183,7 +183,7 @@ def Data_norm(dataset, classes, Encodings, binary=True):
         X_train, X_test, Y_train, Y_test = data.data_load_and_process(dataset, classes=classes,
                                                                           feature_reduction=Encoding, binary=binary)
 
-        if Encoding == 'pca32' or Encoding == 'autoencoder32':
+        if Encoding == 'pca32-3' or Encoding == 'autoencoder32-3':
             norms_X1 = []
             norms_X2 = []
             for i in range(Num_data):
@@ -200,9 +200,9 @@ def Data_norm(dataset, classes, Encodings, binary=True):
             mean_X1, stdev_X1 = np.mean(norms_X1), np.std(norms_X1)
             mean_X2, stdev_X2 = np.mean(norms_X2), np.std(norms_X2)
 
-            if Encoding == 'pca32':
+            if Encoding == 'pca32-3':
                 f.write("PCA32 Encoding\n")
-            elif Encoding == 'autoencoder32':
+            elif Encoding == 'autoencoder32-3':
                 f.write("autoencoder32 Encoding\n")
             f.write("mean of X1: " + str(mean_X1) + " standard deviation of X1: " + str(stdev_X1))
             f.write("\n")
