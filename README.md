@@ -27,3 +27,7 @@ Hybrid Direct Embedding and Hybrid Angle Embedding have variations depending on 
 
 ### 4. Benchmarking
 **"Benchmarking.py"**: trains quantum circuit for given dataset, unitary ansatze, and encoding / embedding method. Saves training loss history and test data accuracy after training. Encoding_to_Embedding function converts Encoding (classical preprocessing feature reduction) to Embedding (Classical data embedding into Quantum Circuit).
+
+
+Binary: "True" uses 1 and -1 labels, while "False" uses 1 and 0 labels. When using cross entropy cost function always use "False".
+When using mse cost function "True" in result for paper, but "False" can also be used.

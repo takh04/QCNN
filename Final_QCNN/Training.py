@@ -2,7 +2,7 @@
 import QCNN_circuit
 import Hierarchical_circuit
 import pennylane as qml
-import numpy as np
+from pennylane import numpy as np
 import autograd.numpy as anp
 
 def square_loss(labels, predictions):
@@ -47,7 +47,7 @@ def circuit_training(X_train, Y_train, U, U_params, embedding_type, circuit, cos
     elif circuit == 'Hierarchical':
         total_params = U_params * 7
 
-    params = np.random.randn(total_params)
+    params = np.random.randn(total_params, requires_grad=True)
     opt = qml.NesterovMomentumOptimizer(stepsize=learning_rate)
     loss_history = []
 

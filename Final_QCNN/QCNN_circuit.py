@@ -32,22 +32,17 @@ def pooling_layer3(V, params):
 
 
 def QCNN_structure(U, params, U_params):
-
     param1 = params[0:U_params]
     param2 = params[U_params: 2 * U_params]
     param3 = params[2 * U_params: 3 * U_params]
-
     param4 = params[3 * U_params: 3 * U_params + 2]
     param5 = params[3 * U_params + 2: 3 * U_params + 4]
     param6 = params[3 * U_params + 4: 3 * U_params + 6]
 
-
     conv_layer1(U, param1)
     pooling_layer1(unitary.Pooling_ansatz1, param4)
-
     conv_layer2(U, param2)
     pooling_layer2(unitary.Pooling_ansatz1, param5)
-
     conv_layer3(U, param3)
     pooling_layer3(unitary.Pooling_ansatz1, param6)
 
@@ -81,8 +76,6 @@ def QCNN_1D_circuit(U, params, U_params):
 dev = qml.device('default.qubit', wires = 8)
 @qml.qnode(dev)
 def QCNN(X, params, U, U_params, embedding_type='Amplitude', cost_fn='cross_entropy'):
-
-
     # Data Embedding
     embedding.data_embedding(X, embedding_type=embedding_type)
 
