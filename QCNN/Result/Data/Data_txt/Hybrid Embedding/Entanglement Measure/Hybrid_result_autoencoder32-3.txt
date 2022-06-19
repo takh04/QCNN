@@ -1,0 +1,6 @@
+
+Entanglement measure Mean: (0.8536278677926581+0j)
+Entanglement measure Standard Deviation: 0.05406395946956782
+
+Entanglement measure without convolution layer Mean: (0.4693417161736672+0j)
+Entanglement measure without convolution layer Standard Deviation: 0.0735887592848858
